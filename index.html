@@ -1,0 +1,2730 @@
+<!DOCTYPE html>
+<html lang="es" data-theme="light">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>ITILearn · ITIL 4 para DevOps, DevSecOps y SRE</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+<style>
+:root {
+  --brand: #4F46E5;
+  --brand-2: #7C3AED;
+  --brand-hover: #4338CA;
+  --accent: #06B6D4;
+  --success: #10B981;
+  --warning: #F59E0B;
+  --danger: #EF4444;
+
+  --bg: #F6F7FB;
+  --surface: #FFFFFF;
+  --surface-2: #F1F3FA;
+  --surface-3: #E8ECF6;
+  --text: #0F172A;
+  --text-2: #475569;
+  --text-3: #94A3B8;
+  --border: #E2E8F0;
+  --border-2: #CBD5E1;
+
+  --grad: linear-gradient(135deg, #4F46E5 0%, #7C3AED 55%, #06B6D4 120%);
+  --grad-soft: linear-gradient(135deg, rgba(79,70,229,.08), rgba(6,182,212,.08));
+
+  --shadow-sm: 0 1px 2px rgba(15,23,42,.06);
+  --shadow: 0 4px 20px -6px rgba(15,23,42,.12);
+  --shadow-lg: 0 20px 40px -12px rgba(15,23,42,.18);
+
+  --r-sm: 8px;
+  --r: 14px;
+  --r-lg: 20px;
+  --r-xl: 28px;
+
+  --font: 'Manrope', -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif;
+  --mono: 'JetBrains Mono', ui-monospace, Menlo, monospace;
+
+  box-sizing: border-box;
+  padding-top: env(safe-area-inset-top, 0px);
+  padding-bottom: env(safe-area-inset-bottom, 0px);
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --bg: #0A0F1E;
+    --surface: #131A2E;
+    --surface-2: #1B2440;
+    --surface-3: #232E4D;
+    --text: #F1F5F9;
+    --text-2: #B8C1D4;
+    --text-3: #6B7796;
+    --border: #232E4D;
+    --border-2: #2E3B5E;
+    --grad-soft: linear-gradient(135deg, rgba(124,58,237,.18), rgba(6,182,212,.14));
+    --shadow-sm: 0 1px 2px rgba(0,0,0,.35);
+    --shadow: 0 4px 20px -6px rgba(0,0,0,.55);
+    --shadow-lg: 0 20px 40px -12px rgba(0,0,0,.65);
+  }
+}
+:root[data-theme="dark"] {
+  --bg: #0A0F1E; --surface: #131A2E; --surface-2: #1B2440; --surface-3: #232E4D;
+  --text: #F1F5F9; --text-2: #B8C1D4; --text-3: #6B7796;
+  --border: #232E4D; --border-2: #2E3B5E;
+  --grad-soft: linear-gradient(135deg, rgba(124,58,237,.18), rgba(6,182,212,.14));
+  --shadow-sm: 0 1px 2px rgba(0,0,0,.35);
+  --shadow: 0 4px 20px -6px rgba(0,0,0,.55);
+  --shadow-lg: 0 20px 40px -12px rgba(0,0,0,.65);
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+html, body { height: 100%; }
+body {
+  background: var(--bg);
+  color: var(--text);
+  font-family: var(--font);
+  -webkit-font-smoothing: antialiased;
+  line-height: 1.6;
+  min-height: 100%;
+  scroll-behavior: smooth;
+}
+html { scroll-padding-top: calc(72px + env(safe-area-inset-top, 0px)); }
+img, svg { max-width: 100%; display: block; }
+button { font-family: inherit; cursor: pointer; border: none; background: none; color: inherit; }
+a { color: var(--brand); text-decoration: none; }
+
+/* ---------- Layout ---------- */
+.shell { display: flex; flex-direction: column; min-height: 100vh; }
+.container { width: 100%; max-width: 1200px; margin: 0 auto; padding: 0 24px; }
+@media (max-width: 640px) { .container { padding: 0 16px; } }
+
+/* ---------- Header ---------- */
+.nav {
+  position: sticky;
+  top: env(safe-area-inset-top, 0px);
+  z-index: 50;
+  background: rgba(255,255,255,.72);
+  backdrop-filter: saturate(180%) blur(14px);
+  -webkit-backdrop-filter: saturate(180%) blur(14px);
+  border-bottom: 1px solid var(--border);
+}
+:root[data-theme="dark"] .nav, :root:not([data-theme="light"]) .nav {
+  background: rgba(10,15,30,.72);
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) .nav { background: rgba(10,15,30,.72); }
+}
+.nav-inner {
+  display: flex; align-items: center; justify-content: space-between;
+  height: 72px;
+}
+.brand {
+  display: flex; align-items: center; gap: 12px;
+  font-weight: 800; font-size: 18px; letter-spacing: -0.02em;
+  color: var(--text);
+}
+.brand-mark {
+  width: 36px; height: 36px; border-radius: 10px;
+  background: var(--grad);
+  display: grid; place-items: center;
+  color: white; font-weight: 800; font-size: 15px;
+  box-shadow: 0 4px 12px -2px rgba(79,70,229,.4);
+}
+.nav-links { display: flex; gap: 4px; align-items: center; }
+.nav-link {
+  padding: 8px 14px; border-radius: 10px;
+  font-size: 14px; font-weight: 600; color: var(--text-2);
+  transition: background .2s, color .2s;
+  display: flex; align-items: center; gap: 8px;
+}
+.nav-link:hover { background: var(--surface-2); color: var(--text); }
+.nav-link.active { background: var(--surface-2); color: var(--brand); }
+.nav-link svg { width: 16px; height: 16px; }
+
+.nav-actions { display: flex; gap: 8px; align-items: center; }
+.icon-btn {
+  width: 40px; height: 40px; border-radius: 10px;
+  display: grid; place-items: center;
+  color: var(--text-2); transition: background .2s;
+}
+.icon-btn:hover { background: var(--surface-2); color: var(--text); }
+.icon-btn svg { width: 18px; height: 18px; }
+
+@media (max-width: 780px) {
+  .nav-link span { display: none; }
+  .nav-link { padding: 10px; }
+}
+
+/* ---------- Buttons ---------- */
+.btn {
+  display: inline-flex; align-items: center; gap: 8px; justify-content: center;
+  padding: 12px 22px; border-radius: 12px;
+  font-weight: 700; font-size: 14px;
+  transition: transform .1s, box-shadow .2s, background .2s;
+  border: 1px solid transparent;
+}
+.btn-primary {
+  background: var(--grad); color: white;
+  box-shadow: 0 6px 20px -8px rgba(79,70,229,.6);
+}
+.btn-primary:hover { transform: translateY(-1px); box-shadow: 0 10px 24px -8px rgba(79,70,229,.7); }
+.btn-secondary {
+  background: var(--surface); color: var(--text);
+  border-color: var(--border-2);
+}
+.btn-secondary:hover { background: var(--surface-2); }
+.btn-ghost { color: var(--text-2); padding: 10px 14px; }
+.btn-ghost:hover { background: var(--surface-2); color: var(--text); }
+.btn svg { width: 16px; height: 16px; }
+
+/* ---------- Views ---------- */
+.view { display: none; padding: 40px 0 80px; animation: fadeIn .3s ease-out; }
+.view.active { display: block; }
+@keyframes fadeIn { from { opacity: 0; transform: translateY(4px); } to { opacity: 1; transform: none; } }
+
+/* ---------- Home / Hero ---------- */
+.hero {
+  padding: 60px 0 40px;
+  position: relative;
+  overflow: hidden;
+}
+.hero-bg {
+  position: absolute; inset: 0; z-index: 0;
+  background:
+    radial-gradient(60% 50% at 15% 0%, rgba(79,70,229,.16), transparent 70%),
+    radial-gradient(50% 40% at 90% 20%, rgba(6,182,212,.14), transparent 70%);
+  pointer-events: none;
+}
+.hero-inner { position: relative; z-index: 1; text-align: center; max-width: 820px; margin: 0 auto; }
+.eyebrow {
+  display: inline-flex; align-items: center; gap: 8px;
+  padding: 6px 12px; border-radius: 999px;
+  background: var(--surface); border: 1px solid var(--border);
+  font-size: 12px; font-weight: 600; color: var(--text-2);
+  margin-bottom: 20px;
+  box-shadow: var(--shadow-sm);
+}
+.eyebrow-dot { width: 6px; height: 6px; border-radius: 50%; background: var(--success); box-shadow: 0 0 0 3px rgba(16,185,129,.2); }
+
+h1.display {
+  font-size: clamp(36px, 6vw, 60px);
+  font-weight: 800;
+  line-height: 1.05;
+  letter-spacing: -0.03em;
+  margin-bottom: 20px;
+}
+.display-grad {
+  background: var(--grad);
+  -webkit-background-clip: text; background-clip: text;
+  color: transparent;
+}
+.lead {
+  font-size: clamp(16px, 2vw, 19px);
+  color: var(--text-2);
+  max-width: 640px; margin: 0 auto 32px;
+}
+.hero-cta { display: flex; gap: 12px; justify-content: center; flex-wrap: wrap; }
+
+.hero-meta {
+  display: flex; gap: 8px; flex-wrap: wrap;
+  justify-content: center; margin-top: 32px;
+}
+.pill {
+  padding: 8px 14px; border-radius: 999px;
+  background: var(--surface); border: 1px solid var(--border);
+  font-size: 13px; font-weight: 600; color: var(--text-2);
+  display: inline-flex; align-items: center; gap: 6px;
+}
+.pill svg { width: 14px; height: 14px; color: var(--brand); }
+
+/* Section titles */
+.section { padding: 60px 0; }
+.section-head { margin-bottom: 32px; }
+.section-tag {
+  font-size: 12px; font-weight: 700; letter-spacing: 0.1em;
+  color: var(--brand); text-transform: uppercase;
+  margin-bottom: 8px;
+}
+h2.section-title {
+  font-size: clamp(24px, 3.5vw, 34px);
+  font-weight: 800; letter-spacing: -0.02em;
+  margin-bottom: 12px;
+}
+.section-sub { color: var(--text-2); max-width: 640px; font-size: 16px; }
+
+/* Feature grid */
+.feature-grid {
+  display: grid; gap: 20px;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+}
+.feature {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--r-lg);
+  padding: 24px;
+  transition: transform .2s, box-shadow .2s, border-color .2s;
+}
+.feature:hover { transform: translateY(-3px); box-shadow: var(--shadow); border-color: var(--border-2); }
+.feature-icon {
+  width: 44px; height: 44px; border-radius: 12px;
+  background: var(--grad-soft);
+  display: grid; place-items: center;
+  margin-bottom: 16px;
+  color: var(--brand);
+}
+.feature-icon svg { width: 22px; height: 22px; }
+.feature h3 { font-size: 16px; font-weight: 700; margin-bottom: 6px; letter-spacing: -0.01em; }
+.feature p { font-size: 14px; color: var(--text-2); }
+
+/* Week roadmap on home */
+.roadmap {
+  display: grid; gap: 16px;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+}
+.week-card {
+  background: var(--surface); border: 1px solid var(--border);
+  border-radius: var(--r-lg); padding: 24px;
+  cursor: pointer; transition: transform .2s, box-shadow .2s, border-color .2s;
+  position: relative; overflow: hidden;
+}
+.week-card:hover { transform: translateY(-3px); box-shadow: var(--shadow); border-color: var(--border-2); }
+.week-card::before {
+  content: ''; position: absolute; top: 0; left: 0; right: 0; height: 4px;
+  background: var(--grad);
+}
+.week-num {
+  font-family: var(--mono); font-size: 12px; font-weight: 600;
+  color: var(--brand); margin-bottom: 8px;
+  letter-spacing: 0.05em;
+}
+.week-card h3 { font-size: 17px; font-weight: 700; margin-bottom: 8px; letter-spacing: -0.01em; }
+.week-card p { font-size: 14px; color: var(--text-2); margin-bottom: 16px; }
+.week-meta {
+  display: flex; gap: 12px; font-size: 12px; color: var(--text-3);
+  border-top: 1px solid var(--border); padding-top: 14px;
+}
+.week-meta span { display: inline-flex; align-items: center; gap: 4px; }
+.week-meta svg { width: 12px; height: 12px; }
+
+/* ---------- Catalog ---------- */
+.catalog-week {
+  background: var(--surface); border: 1px solid var(--border);
+  border-radius: var(--r-lg); margin-bottom: 20px;
+  overflow: hidden;
+}
+.catalog-week-header {
+  padding: 24px; display: flex; align-items: center; justify-content: space-between;
+  cursor: pointer;
+  gap: 16px;
+  background: var(--surface);
+  transition: background .2s;
+}
+.catalog-week-header:hover { background: var(--surface-2); }
+.catalog-week-info { flex: 1; min-width: 0; }
+.catalog-week-title { font-size: 18px; font-weight: 700; letter-spacing: -0.01em; margin-bottom: 4px; }
+.catalog-week-desc { font-size: 14px; color: var(--text-2); }
+
+.progress-ring {
+  width: 52px; height: 52px; flex-shrink: 0;
+  position: relative;
+}
+.progress-ring svg { width: 100%; height: 100%; transform: rotate(-90deg); }
+.progress-ring circle { fill: none; stroke-width: 4; }
+.progress-ring .track { stroke: var(--border-2); }
+.progress-ring .fill { stroke: url(#gradFill); stroke-linecap: round; transition: stroke-dashoffset .5s ease; }
+.progress-ring-text {
+  position: absolute; inset: 0; display: grid; place-items: center;
+  font-size: 12px; font-weight: 700; color: var(--text);
+  font-family: var(--mono);
+}
+
+.chevron { color: var(--text-3); transition: transform .2s; flex-shrink: 0; }
+.catalog-week.open .chevron { transform: rotate(180deg); }
+
+.catalog-lessons { display: none; border-top: 1px solid var(--border); }
+.catalog-week.open .catalog-lessons { display: block; }
+.lesson-row {
+  padding: 16px 24px; display: flex; align-items: center; gap: 16px;
+  border-bottom: 1px solid var(--border);
+  cursor: pointer;
+  transition: background .15s;
+}
+.lesson-row:last-child { border-bottom: none; }
+.lesson-row:hover { background: var(--surface-2); }
+.lesson-check {
+  width: 28px; height: 28px; border-radius: 50%;
+  border: 2px solid var(--border-2);
+  display: grid; place-items: center;
+  color: transparent;
+  flex-shrink: 0;
+  transition: all .2s;
+}
+.lesson-check.done { background: var(--success); border-color: var(--success); color: white; }
+.lesson-check svg { width: 14px; height: 14px; }
+.lesson-body { flex: 1; min-width: 0; }
+.lesson-day { font-family: var(--mono); font-size: 11px; font-weight: 600; color: var(--text-3); letter-spacing: 0.05em; }
+.lesson-title { font-size: 15px; font-weight: 600; margin-top: 2px; letter-spacing: -0.005em; }
+.lesson-meta { font-size: 12px; color: var(--text-3); display: flex; gap: 12px; margin-top: 4px; }
+.lesson-meta span { display: inline-flex; align-items: center; gap: 4px; }
+.lesson-meta svg { width: 12px; height: 12px; }
+.lesson-cta { color: var(--brand); font-size: 13px; font-weight: 600; flex-shrink: 0; }
+.lesson-row.is-quiz .lesson-title::after {
+  content: 'QUIZ'; margin-left: 8px; padding: 2px 6px; border-radius: 4px;
+  background: rgba(245,158,11,.14); color: var(--warning);
+  font-size: 10px; font-weight: 700; vertical-align: middle;
+  letter-spacing: 0.05em;
+}
+
+/* ---------- Dashboard ---------- */
+.dash-grid {
+  display: grid; gap: 20px;
+  grid-template-columns: 2fr 1fr;
+}
+@media (max-width: 900px) { .dash-grid { grid-template-columns: 1fr; } }
+
+.card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--r-lg);
+  padding: 24px;
+}
+.card-title { font-size: 15px; font-weight: 700; margin-bottom: 16px; letter-spacing: -0.01em; }
+
+.progress-hero {
+  background: var(--grad);
+  color: white;
+  border-radius: var(--r-lg);
+  padding: 32px;
+  position: relative;
+  overflow: hidden;
+}
+.progress-hero::before {
+  content: ''; position: absolute; top: -50%; right: -20%;
+  width: 300px; height: 300px; border-radius: 50%;
+  background: radial-gradient(circle, rgba(255,255,255,.15), transparent 70%);
+  pointer-events: none;
+}
+.progress-hero-label { font-size: 13px; font-weight: 600; opacity: .85; margin-bottom: 8px; }
+.progress-hero-value { font-size: 44px; font-weight: 800; letter-spacing: -0.02em; }
+.progress-hero-value small { font-size: 20px; font-weight: 600; opacity: .8; }
+.progress-hero-bar {
+  height: 8px; border-radius: 999px;
+  background: rgba(255,255,255,.2);
+  overflow: hidden; margin-top: 20px;
+}
+.progress-hero-fill { height: 100%; background: white; border-radius: 999px; transition: width .5s; }
+
+.stat-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; margin-top: 20px; }
+.stat {
+  background: var(--surface); border: 1px solid var(--border);
+  border-radius: var(--r); padding: 16px;
+}
+.stat-label { font-size: 12px; color: var(--text-3); font-weight: 600; margin-bottom: 4px; }
+.stat-value { font-size: 22px; font-weight: 800; letter-spacing: -0.02em; }
+
+.week-progress-row {
+  display: flex; align-items: center; gap: 12px;
+  padding: 12px 0; border-bottom: 1px solid var(--border);
+}
+.week-progress-row:last-child { border-bottom: none; }
+.week-progress-label { flex: 1; font-size: 14px; font-weight: 600; }
+.week-progress-bar { flex: 2; height: 8px; background: var(--surface-3); border-radius: 999px; overflow: hidden; }
+.week-progress-fill { height: 100%; background: var(--grad); border-radius: 999px; transition: width .4s; }
+.week-progress-count { font-family: var(--mono); font-size: 12px; color: var(--text-2); font-weight: 600; min-width: 40px; text-align: right; }
+
+.next-lesson-card {
+  background: var(--grad-soft);
+  border: 1px solid var(--border);
+  border-radius: var(--r-lg);
+  padding: 20px;
+  margin-top: 16px;
+}
+.next-lesson-label { font-size: 11px; font-weight: 700; letter-spacing: 0.1em; color: var(--brand); margin-bottom: 8px; }
+.next-lesson-title { font-size: 16px; font-weight: 700; margin-bottom: 12px; letter-spacing: -0.01em; }
+
+.quiz-score-row {
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 10px 0; border-bottom: 1px solid var(--border);
+  font-size: 14px;
+}
+.quiz-score-row:last-child { border-bottom: none; }
+.quiz-score-badge {
+  padding: 4px 10px; border-radius: 999px;
+  font-family: var(--mono); font-size: 12px; font-weight: 700;
+}
+.qs-high { background: rgba(16,185,129,.14); color: var(--success); }
+.qs-mid { background: rgba(245,158,11,.14); color: var(--warning); }
+.qs-low { background: rgba(239,68,68,.14); color: var(--danger); }
+.qs-pending { background: var(--surface-2); color: var(--text-3); }
+
+/* ---------- Lesson View ---------- */
+.lesson-wrap { display: grid; grid-template-columns: 1fr 260px; gap: 32px; }
+@media (max-width: 960px) { .lesson-wrap { grid-template-columns: 1fr; } }
+
+.crumbs {
+  display: flex; gap: 8px; align-items: center;
+  font-size: 13px; color: var(--text-3); margin-bottom: 16px;
+  flex-wrap: wrap;
+}
+.crumbs a { color: var(--text-2); font-weight: 600; }
+.crumbs a:hover { color: var(--brand); }
+.crumbs span { color: var(--border-2); }
+
+.lesson-header {
+  margin-bottom: 32px;
+  padding-bottom: 24px;
+  border-bottom: 1px solid var(--border);
+}
+.lesson-header h1 {
+  font-size: clamp(24px, 4vw, 34px);
+  font-weight: 800; letter-spacing: -0.02em;
+  margin-bottom: 12px;
+}
+.lesson-header-meta {
+  display: flex; gap: 12px; flex-wrap: wrap;
+  color: var(--text-2); font-size: 13px;
+}
+.lesson-header-meta span { display: inline-flex; align-items: center; gap: 6px; }
+.lesson-header-meta svg { width: 14px; height: 14px; color: var(--brand); }
+
+.callout {
+  border-radius: var(--r);
+  padding: 20px 22px;
+  margin: 24px 0;
+  border-left: 3px solid var(--brand);
+  background: var(--grad-soft);
+}
+.callout-title {
+  font-size: 12px; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase;
+  color: var(--brand); margin-bottom: 10px;
+  display: flex; align-items: center; gap: 8px;
+}
+.callout-title svg { width: 14px; height: 14px; }
+.callout ul { padding-left: 20px; }
+.callout li { margin: 4px 0; }
+.callout.devops { border-color: var(--accent); }
+.callout.devops .callout-title { color: var(--accent); }
+.callout.warn { border-color: var(--warning); background: rgba(245,158,11,.08); }
+.callout.warn .callout-title { color: var(--warning); }
+.callout.success { border-color: var(--success); background: rgba(16,185,129,.08); }
+.callout.success .callout-title { color: var(--success); }
+
+.lesson-content h2 { font-size: 22px; font-weight: 700; letter-spacing: -0.01em; margin: 28px 0 12px; }
+.lesson-content h3 { font-size: 17px; font-weight: 700; margin: 20px 0 8px; letter-spacing: -0.005em; }
+.lesson-content p { margin-bottom: 14px; color: var(--text-2); }
+.lesson-content strong { color: var(--text); font-weight: 700; }
+.lesson-content ul, .lesson-content ol { padding-left: 24px; margin-bottom: 14px; color: var(--text-2); }
+.lesson-content li { margin: 6px 0; }
+.lesson-content code {
+  font-family: var(--mono); font-size: 13px;
+  background: var(--surface-2); padding: 2px 6px; border-radius: 4px;
+  color: var(--brand);
+  border: 1px solid var(--border);
+}
+.lesson-content table {
+  width: 100%; border-collapse: collapse; margin: 16px 0;
+  font-size: 14px;
+  overflow-x: auto; display: block;
+}
+.lesson-content th, .lesson-content td {
+  padding: 10px 14px; border-bottom: 1px solid var(--border);
+  text-align: left;
+}
+.lesson-content th { font-weight: 700; color: var(--text); background: var(--surface-2); }
+.lesson-content td { color: var(--text-2); }
+
+.lesson-nav {
+  display: flex; justify-content: space-between; gap: 12px;
+  margin-top: 40px; padding-top: 24px;
+  border-top: 1px solid var(--border);
+}
+.lesson-nav .btn { flex: 1; max-width: 280px; }
+.lesson-nav .prev { margin-right: auto; }
+.lesson-nav .next { margin-left: auto; }
+
+.lesson-side {
+  position: sticky; top: calc(96px + env(safe-area-inset-top, 0px));
+  align-self: start;
+  display: flex; flex-direction: column; gap: 16px;
+}
+@media (max-width: 960px) { .lesson-side { position: static; } }
+
+.side-card {
+  background: var(--surface); border: 1px solid var(--border);
+  border-radius: var(--r-lg); padding: 20px;
+}
+.side-title { font-size: 12px; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; color: var(--text-3); margin-bottom: 12px; }
+.side-list { list-style: none; padding: 0; margin: 0; }
+.side-list li { font-size: 13px; color: var(--text-2); padding: 8px 0; border-bottom: 1px solid var(--border); display: flex; gap: 10px; align-items: flex-start; }
+.side-list li:last-child { border-bottom: none; }
+.side-list-num {
+  width: 20px; height: 20px; border-radius: 50%;
+  background: var(--surface-2); color: var(--brand);
+  font-size: 11px; font-weight: 700; display: grid; place-items: center;
+  flex-shrink: 0; font-family: var(--mono);
+}
+
+/* ---------- Quiz ---------- */
+.quiz-wrap { max-width: 720px; margin: 0 auto; }
+.quiz-header { text-align: center; margin-bottom: 32px; }
+.quiz-header h1 { font-size: 30px; font-weight: 800; letter-spacing: -0.02em; margin-bottom: 8px; }
+.quiz-header p { color: var(--text-2); }
+
+.quiz-progress { display: flex; align-items: center; gap: 12px; margin-bottom: 24px; }
+.quiz-progress-bar { flex: 1; height: 6px; background: var(--surface-3); border-radius: 999px; overflow: hidden; }
+.quiz-progress-fill { height: 100%; background: var(--grad); border-radius: 999px; transition: width .3s; }
+.quiz-progress-count { font-family: var(--mono); font-size: 13px; font-weight: 600; color: var(--text-2); }
+
+.question-card {
+  background: var(--surface); border: 1px solid var(--border);
+  border-radius: var(--r-lg); padding: 32px;
+  margin-bottom: 20px;
+}
+.question-text { font-size: 18px; font-weight: 700; line-height: 1.5; margin-bottom: 24px; letter-spacing: -0.01em; }
+.option {
+  display: flex; align-items: flex-start; gap: 12px;
+  padding: 16px; border: 1.5px solid var(--border);
+  border-radius: var(--r); margin-bottom: 10px;
+  cursor: pointer; transition: all .15s;
+  background: var(--surface);
+}
+.option:hover { border-color: var(--brand); background: var(--surface-2); }
+.option-radio {
+  width: 22px; height: 22px; border-radius: 50%; border: 2px solid var(--border-2);
+  flex-shrink: 0; margin-top: 1px;
+  display: grid; place-items: center;
+  transition: all .2s;
+}
+.option.selected { border-color: var(--brand); background: rgba(79,70,229,.06); }
+.option.selected .option-radio { border-color: var(--brand); }
+.option.selected .option-radio::after {
+  content: ''; width: 10px; height: 10px; border-radius: 50%; background: var(--brand);
+}
+.option.correct { border-color: var(--success); background: rgba(16,185,129,.08); }
+.option.correct .option-radio { border-color: var(--success); }
+.option.correct .option-radio::after {
+  content: '✓'; color: var(--success); font-weight: 800; font-size: 14px;
+}
+.option.wrong { border-color: var(--danger); background: rgba(239,68,68,.08); }
+.option.wrong .option-radio { border-color: var(--danger); }
+.option.wrong .option-radio::after {
+  content: '✕'; color: var(--danger); font-weight: 800; font-size: 14px;
+}
+.option-text { flex: 1; font-size: 15px; line-height: 1.5; }
+
+.explanation {
+  margin-top: 16px; padding: 16px;
+  background: var(--surface-2); border-radius: var(--r);
+  font-size: 14px; color: var(--text-2);
+  border-left: 3px solid var(--brand);
+}
+.explanation strong { color: var(--text); }
+
+.quiz-actions { display: flex; justify-content: space-between; gap: 12px; margin-top: 24px; }
+
+.result-card {
+  text-align: center;
+  padding: 48px 32px;
+  background: var(--surface); border: 1px solid var(--border);
+  border-radius: var(--r-lg);
+}
+.result-score {
+  width: 140px; height: 140px; margin: 0 auto 20px;
+  border-radius: 50%;
+  background: var(--grad);
+  color: white;
+  display: grid; place-items: center;
+  font-size: 44px; font-weight: 800; letter-spacing: -0.02em;
+  box-shadow: 0 20px 40px -12px rgba(79,70,229,.5);
+}
+.result-title { font-size: 26px; font-weight: 800; letter-spacing: -0.02em; margin-bottom: 8px; }
+.result-sub { color: var(--text-2); margin-bottom: 24px; }
+.result-actions { display: flex; gap: 12px; justify-content: center; flex-wrap: wrap; }
+
+/* ---------- Footer ---------- */
+footer {
+  margin-top: auto;
+  border-top: 1px solid var(--border);
+  padding: 32px 0;
+  font-size: 13px; color: var(--text-3);
+  background: var(--surface);
+}
+footer .container { display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 16px; }
+
+/* ---------- Empty & helpers ---------- */
+.hidden { display: none !important; }
+.sr-only { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0,0,0,0); }
+
+.badge-devops { display: inline-flex; align-items: center; gap: 4px; padding: 2px 8px; border-radius: 999px; font-size: 11px; font-weight: 700; letter-spacing: 0.03em; }
+.badge-devops.dev { background: rgba(79,70,229,.14); color: var(--brand); }
+.badge-devops.sre { background: rgba(6,182,212,.14); color: var(--accent); }
+.badge-devops.sec { background: rgba(124,58,237,.14); color: var(--brand-2); }
+</style>
+</head>
+<body>
+<svg width="0" height="0" style="position:absolute">
+  <defs>
+    <linearGradient id="gradFill" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#4F46E5"/>
+      <stop offset="60%" stop-color="#7C3AED"/>
+      <stop offset="100%" stop-color="#06B6D4"/>
+    </linearGradient>
+  </defs>
+</svg>
+
+<div class="shell">
+<header class="nav">
+  <div class="container nav-inner">
+    <a href="#" onclick="go('home');return false" class="brand">
+      <div class="brand-mark">IL</div>
+      <span>ITILearn</span>
+    </a>
+    <nav class="nav-links">
+      <a href="#" class="nav-link" data-view="home" onclick="go('home');return false">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12l9-9 9 9M5 10v10h14V10"/></svg>
+        <span>Inicio</span>
+      </a>
+      <a href="#" class="nav-link" data-view="catalog" onclick="go('catalog');return false">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 6h16M4 12h16M4 18h16"/></svg>
+        <span>Catálogo</span>
+      </a>
+      <a href="#" class="nav-link" data-view="dashboard" onclick="go('dashboard');return false">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="9"/><rect x="14" y="3" width="7" height="5"/><rect x="14" y="12" width="7" height="9"/><rect x="3" y="16" width="7" height="5"/></svg>
+        <span>Mi Panel</span>
+      </a>
+    </nav>
+    <div class="nav-actions">
+      <button class="icon-btn" onclick="toggleTheme()" title="Cambiar tema" id="themeBtn">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M6.34 17.66l-1.41 1.41M19.07 4.93l-1.41 1.41"/></svg>
+      </button>
+    </div>
+  </div>
+</header>
+
+<main>
+
+<!-- ============ HOME ============ -->
+<section class="view active" id="view-home">
+  <div class="hero">
+    <div class="hero-bg"></div>
+    <div class="container hero-inner">
+      <div class="eyebrow"><span class="eyebrow-dot"></span> Plan estructurado · 4 semanas · 1 hora al día</div>
+      <h1 class="display">ITIL 4 para <span class="display-grad">DevOps, DevSecOps y SRE</span></h1>
+      <p class="lead">Un plan de estudio holístico y práctico para dominar las prácticas ITIL que más importan a tu perfil técnico, con un puente explícito a value streams, SLOs, error budgets, CI/CD y postmortems sin culpa.</p>
+      <div class="hero-cta">
+        <button class="btn btn-primary" onclick="startOrResume()">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="M5 3l14 9-14 9V3z"/></svg>
+          <span id="startBtnLabel">Empezar el plan</span>
+        </button>
+        <button class="btn btn-secondary" onclick="go('catalog')">Ver catálogo</button>
+      </div>
+      <div class="hero-meta">
+        <div class="pill"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2v10l6 3"/><circle cx="12" cy="12" r="10"/></svg> 28 lecciones</div>
+        <div class="pill"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 11l3 3 8-8"/><path d="M20 12v6a2 2 0 01-2 2H6a2 2 0 01-2-2V6a2 2 0 012-2h9"/></svg> 4 evaluaciones</div>
+        <div class="pill"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2l3 7h7l-5.5 4.5L18 21l-6-4-6 4 1.5-7.5L2 9h7z"/></svg> Certificación final</div>
+        <div class="pill"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 3H7a2 2 0 00-2 2v14l7-3 7 3V5a2 2 0 00-2-2z"/></svg> Progreso guardado</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="container">
+      <div class="section-head">
+        <div class="section-tag">Enfoque del curso</div>
+        <h2 class="section-title">Pensado desde la ingeniería, no desde el auditor</h2>
+        <p class="section-sub">Cada lección conecta el marco ITIL 4 con tu realidad: pipelines, on-call, SLOs, retrospectivas y automatización. Nada de teoría desligada de la práctica.</p>
+      </div>
+      <div class="feature-grid">
+        <div class="feature">
+          <div class="feature-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 20h9M4 4h16v12H4z"/><path d="M8 20l4-4 4 4"/></svg></div>
+          <h3>Incidentes y Problemas</h3>
+          <p>De la gestión clásica al on-call SRE, con blameless postmortems y RCA aplicables desde el lunes.</p>
+        </div>
+        <div class="feature">
+          <div class="feature-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2v20M2 12h20"/></svg></div>
+          <h3>Change Enablement</h3>
+          <p>Cambios normales, estándar y de emergencia, y cómo el CI/CD se modela como flujo de cambios estándar.</p>
+        </div>
+        <div class="feature">
+          <div class="feature-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"/></svg></div>
+          <h3>Mesa de Servicio</h3>
+          <p>Del ticket tradicional a ChatOps, self-service y AIOps: la mesa como capa de experiencia.</p>
+        </div>
+        <div class="feature">
+          <div class="feature-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 3v18h18"/><path d="M7 15l4-4 4 4 5-5"/></svg></div>
+          <h3>Mejora Continua</h3>
+          <p>Modelo de 7 pasos ITIL cruzado con métricas DORA, Value Stream Mapping y Kaizen.</p>
+        </div>
+        <div class="feature">
+          <div class="feature-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M2 12h6l3-9 4 18 3-9h4"/></svg></div>
+          <h3>Alineación Estratégica</h3>
+          <p>Cómo conectar OKRs, portafolio de productos, plataformas internas y prácticas ITIL sin fricción.</p>
+        </div>
+        <div class="feature">
+          <div class="feature-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg></div>
+          <h3>DevSecOps integrado</h3>
+          <p>Seguridad como práctica cruzada: shift-left, threat modeling y controles en el flujo de cambios.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="container">
+      <div class="section-head">
+        <div class="section-tag">Roadmap</div>
+        <h2 class="section-title">4 semanas, un objetivo por semana</h2>
+        <p class="section-sub">Cada semana cierra con una evaluación breve para consolidar conceptos y mostrarte cómo vas.</p>
+      </div>
+      <div class="roadmap" id="homeRoadmap"></div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ CATALOG ============ -->
+<section class="view" id="view-catalog">
+  <div class="container">
+    <div class="section-head">
+      <div class="section-tag">Catálogo del curso</div>
+      <h2 class="section-title">Contenido del plan</h2>
+      <p class="section-sub">28 sesiones organizadas en 4 semanas temáticas. Puedes seguir el orden diario o saltar a la práctica que necesites.</p>
+    </div>
+    <div id="catalogList"></div>
+  </div>
+</section>
+
+<!-- ============ DASHBOARD ============ -->
+<section class="view" id="view-dashboard">
+  <div class="container">
+    <div class="section-head">
+      <div class="section-tag">Panel del estudiante</div>
+      <h2 class="section-title">Tu progreso</h2>
+      <p class="section-sub">Todo tu avance queda guardado en este navegador. Usa el mismo dispositivo para continuar donde lo dejaste.</p>
+    </div>
+    <div class="dash-grid">
+      <div>
+        <div class="progress-hero">
+          <div class="progress-hero-label">Lecciones completadas</div>
+          <div class="progress-hero-value"><span id="dashDone">0</span><small>/28</small></div>
+          <div class="progress-hero-bar"><div class="progress-hero-fill" id="dashBar" style="width:0%"></div></div>
+        </div>
+        <div class="stat-grid">
+          <div class="stat">
+            <div class="stat-label">Semanas iniciadas</div>
+            <div class="stat-value" id="dashWeeks">0</div>
+          </div>
+          <div class="stat">
+            <div class="stat-label">Quizzes rendidos</div>
+            <div class="stat-value" id="dashQuizzes">0</div>
+          </div>
+          <div class="stat">
+            <div class="stat-label">Promedio</div>
+            <div class="stat-value" id="dashAvg">–</div>
+          </div>
+        </div>
+        <div class="card" style="margin-top:20px">
+          <div class="card-title">Progreso por semana</div>
+          <div id="dashWeekProgress"></div>
+        </div>
+      </div>
+      <div>
+        <div class="card">
+          <div class="card-title">Continuar</div>
+          <div id="nextLessonBox"></div>
+        </div>
+        <div class="card" style="margin-top:16px">
+          <div class="card-title">Puntajes de evaluaciones</div>
+          <div id="dashQuizList"></div>
+        </div>
+        <div class="card" style="margin-top:16px">
+          <div class="card-title">Restablecer</div>
+          <p style="font-size:13px;color:var(--text-2);margin-bottom:12px">Borra tu progreso local si quieres empezar el plan de cero.</p>
+          <button class="btn btn-secondary" style="width:100%" onclick="resetProgress()">Reiniciar progreso</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ LESSON ============ -->
+<section class="view" id="view-lesson">
+  <div class="container">
+    <div id="lessonHost"></div>
+  </div>
+</section>
+
+<!-- ============ QUIZ ============ -->
+<section class="view" id="view-quiz">
+  <div class="container">
+    <div id="quizHost"></div>
+  </div>
+</section>
+
+</main>
+
+<footer>
+  <div class="container">
+    <div>© ITILearn · Plan de estudio ITIL 4 orientado a DevOps / DevSecOps / SRE</div>
+    <div>Diseñado para practicantes técnicos</div>
+  </div>
+</footer>
+</div>
+
+<script>
+// ==================== COURSE DATA ====================
+const COURSE = {
+  weeks: [
+    {
+      id: 1,
+      title: "Fundamentos ITIL 4 y alineación con DevOps",
+      description: "SVS, dimensiones, principios guía y cómo ITIL conecta con tus value streams.",
+      lessons: [
+        {
+          id: "L1", day: 1, title: "Introducción a ITIL 4 y el Sistema de Valor del Servicio (SVS)",
+          objectives: [
+            "Entender qué es ITIL 4 y por qué existe la versión 4",
+            "Reconocer los cinco componentes del SVS",
+            "Situar el SVS como marco integrador para prácticas DevOps/SRE"
+          ],
+          content: `
+            <p>ITIL 4 es el marco global de referencia para la gestión de servicios de TI, publicado por AXELOS en 2019. A diferencia de v3, cuya fuerza estaba en procesos secuenciales, <strong>ITIL 4 se rediseñó como un modelo operativo flexible y compatible por diseño con Agile, Lean, DevOps y SRE</strong>. Su idea central es la <em>co-creación de valor</em>: valor que emerge de la interacción continua entre proveedor y consumidor de servicios.</p>
+            <h2>El Sistema de Valor del Servicio (SVS)</h2>
+            <p>El SVS es el mapa mental que ITIL 4 propone para toda la organización. Describe cómo los distintos elementos trabajan juntos para producir valor. Tiene cinco componentes:</p>
+            <ol>
+              <li><strong>Principios guía</strong> — 7 recomendaciones universales aplicables a cualquier iniciativa.</li>
+              <li><strong>Gobierno</strong> — la dirección y el control estratégico ejercidos por el órgano de gobierno.</li>
+              <li><strong>Cadena de valor del servicio (SVC)</strong> — modelo operacional con 6 actividades interconectadas (Plan, Improve, Engage, Design &amp; Transition, Obtain/Build, Deliver &amp; Support).</li>
+              <li><strong>Prácticas</strong> — 34 prácticas concretas que reemplazan a los antiguos "procesos".</li>
+              <li><strong>Mejora continua</strong> — modelo iterativo de 7 pasos aplicable en cualquier nivel.</li>
+            </ol>
+            <h3>Por qué el SVS importa para DevOps/SRE</h3>
+            <p>Un pipeline CI/CD, una on-call rotation o una plataforma interna son <strong>value streams</strong>: instancias reales de la SVC que atraviesan Plan → Design → Build → Deliver → Support. El SVS te da un lenguaje común con negocio, finanzas, seguridad y cumplimiento para hablar de lo mismo que ya haces.</p>
+          `,
+          bridge: "En DevOps hablas de <em>value streams</em>. En ITIL 4 esos value streams son instancias concretas de la Service Value Chain. Es el mismo concepto con diferente vocabulario.",
+          takeaways: [
+            "ITIL 4 es un marco de operating model, no un checklist de procesos",
+            "El SVS integra principios, gobierno, SVC, prácticas y mejora continua",
+            "Los value streams DevOps son ejecuciones concretas de la SVC"
+          ]
+        },
+        {
+          id: "L2", day: 2, title: "Las 4 Dimensiones de la Gestión de Servicios",
+          objectives: [
+            "Nombrar las 4 dimensiones y su propósito",
+            "Identificar factores externos que las afectan (PESTLE)",
+            "Aplicar el modelo para diagnosticar iniciativas DevOps"
+          ],
+          content: `
+            <p>ITIL 4 sostiene que cualquier producto o servicio debe diseñarse considerando 4 dimensiones balanceadas. Ignorar una es la principal causa silenciosa de iniciativas fallidas.</p>
+            <table>
+              <tr><th>Dimensión</th><th>Qué cubre</th><th>Ejemplo DevOps/SRE</th></tr>
+              <tr><td>Organizaciones y personas</td><td>Estructura, roles, cultura, competencias</td><td>Squads, guilds, SRE embedded, cultura blameless</td></tr>
+              <tr><td>Información y tecnología</td><td>Datos, apps, infra, plataformas</td><td>Observabilidad, IaC, service catalog, telemetría</td></tr>
+              <tr><td>Socios y proveedores</td><td>Relaciones con terceros y proveedores</td><td>Cloud, SaaS, contratos, XLA/SLA con vendors</td></tr>
+              <tr><td>Flujos de valor y procesos</td><td>Cómo se secuencia el trabajo para entregar valor</td><td>Value streams de CI/CD, incident response, release</td></tr>
+            </table>
+            <h3>Factores externos (PESTLE)</h3>
+            <p>Sobre las 4 dimensiones influyen factores <strong>Políticos, Económicos, Sociales, Tecnológicos, Legales y Ambientales</strong>. Un cambio regulatorio (ej. sobre datos personales) es un factor <em>Legal</em> que impacta simultáneamente las 4 dimensiones.</p>
+            <h3>Cómo usarlo</h3>
+            <p>Antes de arrancar un proyecto —una plataforma interna, un rediseño de on-call, adopción de OpenTelemetry— haz un <strong>escaneo 4D</strong>: escribe qué necesitas en cada dimensión. Si una queda vacía, es la que fallará primero.</p>
+          `,
+          bridge: "Una nueva plataforma interna no fracasa por la tecnología: fracasa por la dimensión de <em>Organización y personas</em> (adopción, ownership, capacidades) o por <em>Flujos y procesos</em> (nadie cambió su forma de trabajar).",
+          takeaways: [
+            "Las 4 dimensiones son un checklist obligatorio de diseño",
+            "PESTLE describe presiones externas sobre las 4 dimensiones",
+            "El escaneo 4D previene fallas silenciosas en iniciativas"
+          ]
+        },
+        {
+          id: "L3", day: 3, title: "Los 7 Principios Guía de ITIL 4",
+          objectives: [
+            "Memorizar los 7 principios y su propósito",
+            "Contrastarlos con CALMS y los principios DevOps",
+            "Usarlos como criterio de decisión operativo"
+          ],
+          content: `
+            <p>Los 7 principios guía son el corazón cultural de ITIL 4. Son recomendaciones universales, aplicables desde una decisión de arquitectura hasta un rediseño organizacional.</p>
+            <ol>
+              <li><strong>Foco en el valor</strong> — todo lo que hagas debe conectarse con valor para stakeholders.</li>
+              <li><strong>Empezar desde donde estás</strong> — evalúa antes de rehacer; conserva lo que funciona.</li>
+              <li><strong>Progresar iterativamente con feedback</strong> — pequeños incrementos con validación.</li>
+              <li><strong>Colaborar y promover la visibilidad</strong> — silos y opacidad matan valor.</li>
+              <li><strong>Pensar y trabajar holísticamente</strong> — sistemas, no partes aisladas.</li>
+              <li><strong>Mantener la simplicidad y practicidad</strong> — elimina lo que no aporta.</li>
+              <li><strong>Optimizar y automatizar</strong> — primero optimiza, después automatiza.</li>
+            </ol>
+            <h3>Puente con CALMS</h3>
+            <p>Los principios ITIL 4 encajan naturalmente con <strong>CALMS</strong> (Culture, Automation, Lean, Measurement, Sharing) de DevOps:</p>
+            <ul>
+              <li>"Colaborar y promover visibilidad" ≈ <em>Culture + Sharing</em></li>
+              <li>"Optimizar y automatizar" ≈ <em>Automation</em></li>
+              <li>"Progresar iterativamente" ≈ <em>Lean</em></li>
+              <li>"Foco en el valor" ≈ <em>Measurement</em> (mides lo que da valor)</li>
+            </ul>
+            <p><strong>Regla crítica: NUNCA automatices un proceso roto.</strong> Primero optimiza (elimina desperdicio), después automatiza. Automatizar el caos solo lo hace más rápido.</p>
+          `,
+          bridge: "Cuando dudes en una PR, un diseño o una discusión de proceso, pregúntate: ¿esto respeta los 7 principios? Es un filtro rápido y honesto.",
+          takeaways: [
+            "Los 7 principios son criterios de decisión, no eslóganes",
+            "Coinciden en espíritu con CALMS de DevOps",
+            "Optimizar antes de automatizar es regla de oro"
+          ]
+        },
+        {
+          id: "L4", day: 4, title: "Cadena de Valor del Servicio y Value Streams",
+          objectives: [
+            "Describir las 6 actividades de la SVC",
+            "Modelar un value stream real (ej. release) usando la SVC",
+            "Identificar puntos de fricción y desperdicio (waste)"
+          ],
+          content: `
+            <p>La <strong>Service Value Chain (SVC)</strong> es el modelo operacional al centro del SVS. Tiene 6 actividades interconectadas que combinamos en distintos órdenes para crear <em>value streams</em> específicos.</p>
+            <h3>Las 6 actividades</h3>
+            <ol>
+              <li><strong>Plan</strong> — asegurar entendimiento común de visión, estado y dirección.</li>
+              <li><strong>Improve</strong> — mejorar productos, servicios y prácticas continuamente.</li>
+              <li><strong>Engage</strong> — buen entendimiento y relación con stakeholders.</li>
+              <li><strong>Design &amp; Transition</strong> — asegurar que productos/servicios cumplen expectativas.</li>
+              <li><strong>Obtain/Build</strong> — asegurar disponibilidad de componentes.</li>
+              <li><strong>Deliver &amp; Support</strong> — entregar y soportar según acuerdos.</li>
+            </ol>
+            <h3>Mapear un value stream DevOps</h3>
+            <p>Un release típico se puede mapear así:</p>
+            <p><code>Engage</code> (recibir requerimiento) → <code>Plan</code> (priorizar) → <code>Design &amp; Transition</code> (diseñar y validar) → <code>Obtain/Build</code> (codificar/testear) → <code>Deliver &amp; Support</code> (deploy y monitoreo) → <code>Improve</code> (retrospectiva).</p>
+            <h3>Encontrar desperdicio</h3>
+            <p>En Lean, los 7 desperdicios clásicos aplican a value streams de software:</p>
+            <ul>
+              <li>Trabajo parcialmente terminado (feature branches abandonadas)</li>
+              <li>Procesos extra (aprobaciones redundantes)</li>
+              <li>Features no usadas</li>
+              <li>Cambios de contexto</li>
+              <li>Espera (colas, aprobaciones)</li>
+              <li>Movimiento (documentar en 3 herramientas)</li>
+              <li>Defectos (bugs, rework)</li>
+            </ul>
+          `,
+          bridge: "Un <em>Value Stream Map</em> (VSM) hace visible el tiempo en actividad vs en espera. Casi siempre el 80% del tiempo es espera. Ahí está la mejora, no en optimizar la actividad.",
+          takeaways: [
+            "La SVC son 6 actividades combinables en distintos value streams",
+            "Cada value stream DevOps mapea 1:1 con actividades SVC",
+            "El desperdicio Lean se aplica directo a flujos de software"
+          ]
+        },
+        {
+          id: "L5", day: 5, title: "Panorama de las 34 Prácticas ITIL 4",
+          objectives: [
+            "Distinguir prácticas de gestión general, de servicio y técnicas",
+            "Priorizar las prácticas críticas para DevOps/SRE",
+            "Reconocer qué prácticas ya ejerces sin llamarlas así"
+          ],
+          content: `
+            <p>ITIL 4 pasó de 26 procesos rígidos a <strong>34 prácticas</strong> flexibles. Están agrupadas en tres familias:</p>
+            <h3>Gestión general (14)</h3>
+            <p>Continual improvement, gobierno, gestión de la información y conocimiento, medición y reporte, arquitectura empresarial, portafolio, proyecto, riesgo, cambio organizacional, RRHH y talento, gestión estratégica, relaciones, proveedores, seguridad de la información.</p>
+            <h3>Gestión de servicios (17)</h3>
+            <p>Availability, business analysis, capacity &amp; performance, <strong>change enablement</strong>, <strong>incident management</strong>, IT asset management, monitoring &amp; event, <strong>problem management</strong>, release management, service catalogue, service configuration, service continuity, service design, <strong>service desk</strong>, service level, service request, service validation &amp; testing.</p>
+            <h3>Gestión técnica (3)</h3>
+            <p>Deployment management, infrastructure &amp; platform management, software development &amp; management.</p>
+            <h3>Prácticas críticas para tu perfil</h3>
+            <p>Como DevOps/SRE, estas 8 son tu núcleo diario:</p>
+            <ul>
+              <li>Incident Management</li>
+              <li>Problem Management</li>
+              <li>Change Enablement</li>
+              <li>Service Desk</li>
+              <li>Deployment Management</li>
+              <li>Release Management</li>
+              <li>Monitoring &amp; Event Management</li>
+              <li>Continual Improvement</li>
+            </ul>
+            <p>Las siguientes semanas profundizamos en incidentes, problemas, cambios, mesa de servicio y mejora continua, con conexión explícita a herramientas y patrones que ya usas.</p>
+          `,
+          bridge: "Deployment y Release Management ya los ejerces a través de tu pipeline. Nombrarlos así te ayuda a compartir vocabulario con auditoría, negocio y seguridad.",
+          takeaways: [
+            "34 prácticas en 3 familias: general, servicio, técnica",
+            "8 prácticas concentran el día a día de DevOps/SRE",
+            "Muchas prácticas ya se ejercen; sólo faltan nombrarse"
+          ]
+        },
+        {
+          id: "L6", day: 6, title: "Alineación estratégica: ITIL 4 + DevOps + SRE",
+          objectives: [
+            "Reconocer cómo ITIL, DevOps y SRE se complementan",
+            "Diseñar un modelo integrado sin duplicar governance",
+            "Ubicar Platform Engineering en el mapa"
+          ],
+          content: `
+            <p>Un error clásico es tratar ITIL, DevOps y SRE como opciones excluyentes. En realidad cubren capas distintas:</p>
+            <table>
+              <tr><th>Marco</th><th>Capa que responde</th><th>Pregunta principal</th></tr>
+              <tr><td>ITIL 4</td><td>Modelo operativo</td><td>¿Cómo creamos valor de forma sostenible?</td></tr>
+              <tr><td>DevOps</td><td>Cultura + flujo</td><td>¿Cómo entregamos rápido y confiable?</td></tr>
+              <tr><td>SRE</td><td>Ingeniería de confiabilidad</td><td>¿Cómo operamos servicios a escala con calidad?</td></tr>
+              <tr><td>Platform Eng.</td><td>Habilitación</td><td>¿Cómo damos self-service a los equipos?</td></tr>
+            </table>
+            <h3>El modelo integrado</h3>
+            <p>Usa ITIL 4 como <strong>marco integrador</strong>: le pone vocabulario común y estructura de valor. Sobre él, DevOps aporta cultura y prácticas de flujo (trunk-based, CI/CD, feature flags). SRE aporta ingeniería de confiabilidad (SLI/SLO, error budgets, toil reduction). Platform Engineering ofrece la plataforma interna que hace todo consumible como producto.</p>
+            <h3>Evitar la trampa de la duplicación</h3>
+            <p>No dupliques CABs si ya tienes revisiones de pull request. No duplicas incidents si tienes on-call rotations. Reconoce lo que ya haces y renómbralo en vocabulario ITIL cuando hables con auditoría o negocio.</p>
+          `,
+          bridge: "Platform Engineering es la respuesta pragmática a ITIL 4: convierte prácticas en <em>golden paths</em> autoservicio. Los equipos de producto consumen el marco sin sentirlo.",
+          takeaways: [
+            "ITIL, DevOps, SRE y Platform Eng. son capas complementarias",
+            "ITIL 4 funciona como marco integrador con vocabulario común",
+            "Reconoce lo que ya haces; no dupliques governance"
+          ]
+        },
+        {
+          id: "Q1", day: 7, title: "Evaluación · Semana 1", isQuiz: true
+        }
+      ],
+      quiz: {
+        title: "Evaluación · Fundamentos ITIL 4 y DevOps",
+        subtitle: "6 preguntas · consolida los conceptos de la semana",
+        questions: [
+          {
+            q: "¿Cuál es el propósito principal del Sistema de Valor del Servicio (SVS) en ITIL 4?",
+            options: [
+              "Definir la lista exacta de procesos que toda organización debe implementar",
+              "Describir cómo los componentes de la organización trabajan juntos para co-crear valor",
+              "Reemplazar las metodologías Agile y DevOps con un marco unificado",
+              "Documentar los servicios técnicos ofrecidos por el área de TI"
+            ],
+            correct: 1,
+            expl: "El SVS es un modelo operativo que muestra cómo todos los componentes (principios, gobierno, cadena de valor, prácticas, mejora continua) interactúan para co-crear valor con los stakeholders."
+          },
+          {
+            q: "Las 4 dimensiones de la gestión de servicios NO incluyen:",
+            options: [
+              "Organizaciones y personas",
+              "Información y tecnología",
+              "Socios y proveedores",
+              "Herramientas de monitoreo y ticketing"
+            ],
+            correct: 3,
+            expl: "Las 4 dimensiones son: Organizaciones y personas, Información y tecnología, Socios y proveedores, y Flujos de valor y procesos. Las herramientas específicas caen dentro de la dimensión de Información y tecnología."
+          },
+          {
+            q: "El principio guía 'Optimizar y automatizar' recomienda:",
+            options: [
+              "Automatizar todo lo posible desde el primer día para acelerar el flujo",
+              "Optimizar primero eliminando desperdicio, y automatizar después lo que aporte valor",
+              "Contratar herramientas de automatización antes de rediseñar procesos",
+              "Delegar la automatización solo al equipo de plataforma"
+            ],
+            correct: 1,
+            expl: "Automatizar un proceso desperdiciador solo produce desperdicio más rápido. La regla es optimizar primero (eliminar waste, simplificar) y automatizar después lo que ya está bien diseñado."
+          },
+          {
+            q: "¿Cuál de las siguientes actividades NO es parte de la Service Value Chain?",
+            options: [
+              "Plan",
+              "Design &amp; Transition",
+              "Deliver &amp; Support",
+              "Control &amp; Audit"
+            ],
+            correct: 3,
+            expl: "Las 6 actividades de la SVC son: Plan, Improve, Engage, Design &amp; Transition, Obtain/Build y Deliver &amp; Support. Control &amp; Audit no es una actividad de la cadena de valor."
+          },
+          {
+            q: "¿Cuántas prácticas define ITIL 4 en total?",
+            options: ["26", "34", "17", "42"],
+            correct: 1,
+            expl: "ITIL 4 define 34 prácticas agrupadas en tres familias: 14 de gestión general, 17 de gestión de servicios y 3 de gestión técnica."
+          },
+          {
+            q: "¿Cuál es la mejor forma de integrar ITIL 4, DevOps y SRE en una misma organización?",
+            options: [
+              "Elegir uno solo y descartar los otros dos",
+              "Usar ITIL como marco integrador con vocabulario común y capas complementarias de DevOps y SRE",
+              "Duplicar procesos para asegurar cumplimiento en cada marco por separado",
+              "Aplicar ITIL solo a operaciones y DevOps solo a desarrollo, sin conexión"
+            ],
+            correct: 1,
+            expl: "ITIL 4 opera como marco integrador. DevOps aporta cultura y flujo, SRE aporta ingeniería de confiabilidad. Duplicar governance genera fricción; alinear vocabulario evita retrabajo."
+          }
+        ]
+      }
+    },
+    {
+      id: 2,
+      title: "Gestión de Incidentes y Problemas + SRE",
+      description: "Del ticket clásico al on-call moderno, con RCA y blameless postmortems.",
+      lessons: [
+        {
+          id: "L8", day: 8, title: "Práctica de Incident Management",
+          objectives: [
+            "Definir incidente y objetivo de la práctica",
+            "Distinguir prioridad, impacto y urgencia",
+            "Diseñar un flujo básico de respuesta"
+          ],
+          content: `
+            <p>Un <strong>incidente</strong> es una interrupción no planificada de un servicio o una reducción de su calidad. El objetivo de la práctica es <em>restaurar el servicio normal lo antes posible</em>, minimizando impacto.</p>
+            <h3>Prioridad = Impacto × Urgencia</h3>
+            <p>La prioridad no la inventas: la calculas.</p>
+            <ul>
+              <li><strong>Impacto</strong>: qué tan afectado está el negocio (usuarios, ingresos, cumplimiento).</li>
+              <li><strong>Urgencia</strong>: qué tan rápido debemos actuar (deadline, dependencias).</li>
+              <li><strong>Prioridad</strong>: la matriz cruzada. P1/P2 activan procedimientos mayores.</li>
+            </ul>
+            <h3>Flujo básico</h3>
+            <ol>
+              <li><strong>Detección</strong> — monitoreo, usuario, mesa de servicio.</li>
+              <li><strong>Registro</strong> — ticket con datos mínimos.</li>
+              <li><strong>Categorización y priorización</strong>.</li>
+              <li><strong>Diagnóstico inicial y escalamiento</strong> (funcional o jerárquico).</li>
+              <li><strong>Resolución</strong> — restaurar servicio, aunque sea con workaround.</li>
+              <li><strong>Cierre</strong> — con confirmación del usuario.</li>
+              <li><strong>Alimentar Problem Management</strong> si es recurrente o crítico.</li>
+            </ol>
+            <h3>Métricas clave</h3>
+            <ul>
+              <li><strong>MTTA</strong> — Mean Time To Acknowledge</li>
+              <li><strong>MTTR</strong> — Mean Time To Restore/Resolve</li>
+              <li><strong>% dentro de SLA</strong></li>
+              <li><strong>Tasa de reincidencia</strong></li>
+            </ul>
+          `,
+          bridge: "MTTR es un puente perfecto con SRE. En ITIL le llamas 'tiempo medio de restauración'; en tu on-call es el mismo número. Reduce MTTR y mejorarás simultáneamente ambas conversaciones.",
+          takeaways: [
+            "Un incidente es una interrupción no planificada",
+            "Prioridad = Impacto × Urgencia (matriz)",
+            "MTTA y MTTR son las métricas puente con SRE"
+          ]
+        },
+        {
+          id: "L9", day: 9, title: "SRE + Incidentes: SLI, SLO, SLA y Error Budgets",
+          objectives: [
+            "Definir SLI, SLO y SLA con precisión",
+            "Diseñar un SLO útil para un servicio",
+            "Usar error budgets como mecanismo de decisión"
+          ],
+          content: `
+            <p>SRE (Site Reliability Engineering), nacido en Google, aporta el <strong>rigor de ingeniería</strong> a la confiabilidad. Sus 3 conceptos base son SLI, SLO y SLA.</p>
+            <table>
+              <tr><th>Concepto</th><th>Qué es</th><th>Quién lo usa</th></tr>
+              <tr><td><strong>SLI</strong></td><td>Métrica objetiva (ej. latencia p99, disponibilidad)</td><td>Ingeniería</td></tr>
+              <tr><td><strong>SLO</strong></td><td>Objetivo interno sobre el SLI (ej. 99.9% de éxito)</td><td>Ingeniería + Producto</td></tr>
+              <tr><td><strong>SLA</strong></td><td>Compromiso contractual con el cliente</td><td>Legal + Cliente</td></tr>
+            </table>
+            <p>Regla: <strong>SLA &lt; SLO &lt; SLI real</strong>. Mides mucho, apuntas a más de lo prometido, prometes con margen.</p>
+            <h3>Error Budget</h3>
+            <p>Si tu SLO es 99.9%, tu <strong>error budget</strong> es 0.1% — el margen de falla aceptado. Ese margen se gasta con incidentes, releases riesgosos, chaos experiments. Cuando se agota:</p>
+            <ul>
+              <li>Se congelan releases riesgosos</li>
+              <li>El equipo enfoca en confiabilidad</li>
+              <li>Se prioriza pagar deuda</li>
+            </ul>
+            <p>El error budget convierte "confiabilidad vs velocidad" de discusión política en decisión basada en datos.</p>
+            <h3>Puente con ITIL Incident Management</h3>
+            <p>Cada incidente consume error budget. Los SLOs sustituyen o complementan los SLAs internos. La prioridad ITIL puede alinearse con impacto en error budget: si un incidente consume >20% del budget, es P1 automáticamente.</p>
+          `,
+          bridge: "El error budget es la mejor herramienta que existe para negociar entre velocidad y confiabilidad. Ni ingeniería 'freezea' por miedo, ni producto empuja sin límite: los datos deciden.",
+          takeaways: [
+            "SLI mide, SLO apunta, SLA compromete",
+            "Regla: SLA < SLO < SLI real",
+            "Error budget agotado = freeze de riesgo, foco en confiabilidad"
+          ]
+        },
+        {
+          id: "L10", day: 10, title: "On-call, escalamiento y comunicación en incidentes",
+          objectives: [
+            "Diseñar una on-call rotation humana y sostenible",
+            "Estructurar comunicación durante incidentes mayores",
+            "Aplicar el rol de Incident Commander"
+          ],
+          content: `
+            <p>Un buen on-call es medible, humano y evolutivo. Los tres pilares:</p>
+            <h3>1. Rotación sostenible</h3>
+            <ul>
+              <li>Turnos de 1 semana idealmente (nunca &gt; 2)</li>
+              <li>Mínimo 6 personas para no quemar al equipo</li>
+              <li>Compensación clara (horas, día libre, bono)</li>
+              <li>Handoff estructurado al cierre de turno</li>
+            </ul>
+            <h3>2. Escalamiento</h3>
+            <ul>
+              <li><strong>Funcional</strong>: al especialista adecuado (red, DB, seguridad)</li>
+              <li><strong>Jerárquico</strong>: hacia arriba cuando hay impacto mayor o decisión de negocio</li>
+              <li><strong>Automático</strong>: si no hay ack en X minutos, escalar</li>
+            </ul>
+            <h3>3. Roles en incidentes mayores</h3>
+            <table>
+              <tr><th>Rol</th><th>Responsabilidad</th></tr>
+              <tr><td><strong>Incident Commander (IC)</strong></td><td>Coordina, decide, no toca teclado</td></tr>
+              <tr><td><strong>Ops Lead</strong></td><td>Ejecuta acciones técnicas</td></tr>
+              <tr><td><strong>Communications Lead</strong></td><td>Actualiza status page, negocio, clientes</td></tr>
+              <tr><td><strong>Scribe</strong></td><td>Registra timeline en tiempo real</td></tr>
+            </table>
+            <h3>Comunicación</h3>
+            <p>Reglas de oro:</p>
+            <ul>
+              <li>Un canal único de guerra (war room / bridge)</li>
+              <li>Status page pública actualizada cada 30 min mínimo</li>
+              <li>Mensajes al cliente en lenguaje claro (no jerga técnica)</li>
+              <li>Cierre formal con RFO (Reason For Outage) resumido en &lt;24h</li>
+            </ul>
+          `,
+          bridge: "El rol de Incident Commander viene del cuerpo de bomberos vía Google. Es la diferencia entre caos organizado y caos catastrófico. El IC no arregla nada: coordina para que otros arreglen.",
+          takeaways: [
+            "On-call sostenible: 6+ personas, turnos ≤ 1 semana, compensación",
+            "Roles claros en mayores: IC, Ops, Comms, Scribe",
+            "Comunicación externa cada 30 min mínimo; RFO en 24h"
+          ]
+        },
+        {
+          id: "L11", day: 11, title: "Práctica de Problem Management",
+          objectives: [
+            "Distinguir incidente de problema",
+            "Reconocer known error y workaround",
+            "Diseñar un flujo reactivo y proactivo"
+          ],
+          content: `
+            <p>Un <strong>problema</strong> es la <em>causa</em> (o posible causa) de uno o más incidentes. Un incidente es un evento; un problema es la investigación de su origen y la solución permanente.</p>
+            <table>
+              <tr><th>Incidente</th><th>Problema</th></tr>
+              <tr><td>"El checkout está caído"</td><td>"El servicio de pagos falla bajo carga por leak de conexiones"</td></tr>
+              <tr><td>Restaurar servicio</td><td>Eliminar causa raíz</td></tr>
+              <tr><td>Corto plazo</td><td>Mediano/largo plazo</td></tr>
+            </table>
+            <h3>Conceptos clave</h3>
+            <ul>
+              <li><strong>Known Error (KE)</strong>: problema con causa identificada y workaround documentado.</li>
+              <li><strong>Workaround</strong>: solución temporal que reduce impacto mientras se resuelve el problema.</li>
+              <li><strong>KEDB (Known Error Database)</strong>: repositorio consultable por incident responders.</li>
+            </ul>
+            <h3>Problem Management reactivo vs proactivo</h3>
+            <p><strong>Reactivo</strong>: se dispara desde incidentes (uno crítico o varios recurrentes). Investiga, encuentra causa, propone solución permanente.</p>
+            <p><strong>Proactivo</strong>: analiza datos, tendencias y arquitectura para detectar problemas antes de que causen incidentes. Muy alineado con lo que hace SRE con análisis de trends y capacity planning.</p>
+            <h3>Flujo típico</h3>
+            <ol>
+              <li>Detección (post-incidente, análisis de tendencias, monitoring)</li>
+              <li>Registro y categorización</li>
+              <li>Investigación y diagnóstico (RCA)</li>
+              <li>Workaround temporal (si aplica) + entrada en KEDB</li>
+              <li>Solución permanente (change enablement)</li>
+              <li>Cierre y actualización de KEDB</li>
+            </ol>
+          `,
+          bridge: "La KEDB es el mejor amigo del on-call: cuando ves un síntoma conocido, sabes el workaround inmediato. Mantenerla viva reduce MTTR drásticamente.",
+          takeaways: [
+            "Problema es la causa; incidente es el síntoma",
+            "Workaround temporal + KEDB acelera respuesta",
+            "Problem Management proactivo se alinea con análisis SRE de trends"
+          ]
+        },
+        {
+          id: "L12", day: 12, title: "Root Cause Analysis: 5 Whys, Fishbone, FMEA",
+          objectives: [
+            "Aplicar la técnica de 5 Whys correctamente",
+            "Usar diagrama Ishikawa (fishbone) para causas múltiples",
+            "Introducir FMEA para análisis proactivo"
+          ],
+          content: `
+            <p>RCA es el arte de encontrar la causa real, no la primera excusa. Tres herramientas complementarias:</p>
+            <h3>5 Whys (Toyota)</h3>
+            <p>Preguntas sucesivamente "por qué" hasta llegar a la raíz. Ejemplo:</p>
+            <ol>
+              <li>El checkout falló → <em>¿Por qué?</em></li>
+              <li>El servicio de pagos devolvió 500 → <em>¿Por qué?</em></li>
+              <li>Se acabaron las conexiones a la DB → <em>¿Por qué?</em></li>
+              <li>El pool no libera conexiones tras excepciones → <em>¿Por qué?</em></li>
+              <li>El código captura la excepción sin cerrar el recurso → <em>causa raíz</em></li>
+            </ol>
+            <p>Trampas: quedarse en 3 whys, culpar a personas ("por qué X no revisó"), inventar respuestas.</p>
+            <h3>Diagrama Ishikawa (fishbone)</h3>
+            <p>Cuando hay múltiples causas contribuyentes, se agrupan en categorías (típicas: Método, Máquina, Material, Mano de obra, Medición, Medio ambiente). Muy útil en incidentes complejos donde no hay una única causa.</p>
+            <h3>FMEA (Failure Mode and Effects Analysis)</h3>
+            <p>Análisis proactivo. Para cada componente crítico, identifica modos de falla, efectos e impacto. Prioriza mitigaciones. Muy usado en diseño de sistemas SRE.</p>
+            <h3>Regla de oro RCA</h3>
+            <p><strong>La causa raíz no es una persona.</strong> "Fulano se equivocó" no es RCA: es señalamiento. Un buen RCA responde: ¿qué condiciones del sistema permitieron que el error humano tuviera impacto? Ahí está la mejora.</p>
+          `,
+          bridge: "Piensa en RCA como debugging del sistema socio-técnico. El bug puede estar en el código, pero también en el proceso, en la documentación, en el ambiente, en el diseño. Todo eso es parte del sistema.",
+          takeaways: [
+            "5 Whys es simple pero exige disciplina: no inventar, no culpar",
+            "Fishbone para causas múltiples contribuyentes",
+            "FMEA es RCA proactivo — se aplica antes del incidente"
+          ]
+        },
+        {
+          id: "L13", day: 13, title: "Blameless Postmortems al estilo SRE",
+          objectives: [
+            "Diseñar un postmortem sin culpa útil",
+            "Estructurar timeline, contributing factors y action items",
+            "Establecer cultura de aprendizaje del incidente"
+          ],
+          content: `
+            <p>Un <strong>blameless postmortem</strong> asume que las personas actuaron con buena intención dada la información que tenían. El foco es el sistema, no el individuo. Es un artefacto público de aprendizaje.</p>
+            <h3>Estructura estándar</h3>
+            <ol>
+              <li><strong>Resumen ejecutivo</strong> — qué pasó, cuándo, impacto.</li>
+              <li><strong>Timeline</strong> — cronología con timestamps, quién detectó, qué se hizo.</li>
+              <li><strong>Impacto</strong> — usuarios, ingresos, SLO, error budget consumido.</li>
+              <li><strong>Root cause</strong> — resultado del RCA (no una persona).</li>
+              <li><strong>Contributing factors</strong> — condiciones que permitieron el impacto.</li>
+              <li><strong>What went well</strong> — lo que funcionó bien en la respuesta.</li>
+              <li><strong>What went poorly</strong> — lo que falló en detección o respuesta.</li>
+              <li><strong>Where we got lucky</strong> — factores fortuitos.</li>
+              <li><strong>Action items</strong> — acciones específicas, con dueño y fecha.</li>
+            </ol>
+            <h3>Reglas de cultura</h3>
+            <ul>
+              <li>Nombres solo para atribuir acciones positivas (detección, resolución).</li>
+              <li>Los errores se atribuyen al sistema (falta de guard-rails, docs, alertas).</li>
+              <li>El facilitador NO es la víctima ni el "culpable".</li>
+              <li>Los action items tienen fecha; si no, no existen.</li>
+              <li>El documento es público internamente.</li>
+            </ul>
+            <h3>Puente con Problem Management</h3>
+            <p>El postmortem SRE ES un artefacto de Problem Management. Los action items alimentan Change Enablement y Continual Improvement. Un buen postmortem cierra el círculo: incidente → problema → cambio → mejora.</p>
+          `,
+          bridge: "Google publicó su libro SRE con ejemplos reales de postmortems. Ese estilo es hoy el estándar de la industria. Si tu organización aún hace 'quién tuvo la culpa', estás años atrás.",
+          takeaways: [
+            "Blameless: foco en el sistema, no en la persona",
+            "Timeline + impacto + RCA + action items con fecha",
+            "El postmortem cierra el ciclo Incident → Problem → Change → Improve"
+          ]
+        },
+        {
+          id: "Q2", day: 14, title: "Evaluación · Semana 2", isQuiz: true
+        }
+      ],
+      quiz: {
+        title: "Evaluación · Incidentes, Problemas y SRE",
+        subtitle: "7 preguntas · consolida SRE + Problem/Incident Management",
+        questions: [
+          {
+            q: "¿Cuál es el objetivo principal de la práctica de Incident Management?",
+            options: [
+              "Encontrar la causa raíz de los incidentes",
+              "Restaurar el servicio normal lo antes posible, minimizando impacto",
+              "Aprobar todos los cambios que resuelven incidentes",
+              "Documentar la deuda técnica del equipo"
+            ],
+            correct: 1,
+            expl: "Incident Management busca restaurar servicio rápido. La causa raíz y la solución permanente son responsabilidad de Problem Management."
+          },
+          {
+            q: "La prioridad de un incidente en ITIL 4 se calcula como:",
+            options: [
+              "Solo por urgencia",
+              "Solo por impacto",
+              "Impacto × Urgencia",
+              "Decisión del gerente de turno"
+            ],
+            correct: 2,
+            expl: "Prioridad = Impacto × Urgencia. Es una matriz que evita subjetividad y permite comparar incidentes."
+          },
+          {
+            q: "En SRE, ¿cuál es la relación correcta entre SLA, SLO y SLI?",
+            options: [
+              "SLA &lt; SLO &lt; SLI real",
+              "SLI &lt; SLO &lt; SLA",
+              "SLO &lt; SLA &lt; SLI",
+              "Los tres deben ser iguales"
+            ],
+            correct: 0,
+            expl: "Mides mucho (SLI), apuntas a más de lo prometido (SLO) y prometes con margen (SLA). Así el error budget te da espacio operativo."
+          },
+          {
+            q: "Si tu SLO de disponibilidad mensual es 99.9%, tu error budget mensual es aproximadamente:",
+            options: [
+              "0.01% (~4 minutos)",
+              "0.1% (~43 minutos)",
+              "1% (~7 horas)",
+              "No hay error budget si estás en 99.9%"
+            ],
+            correct: 1,
+            expl: "El complemento del SLO es el error budget: 100% - 99.9% = 0.1%, que sobre 30 días son ~43 minutos de indisponibilidad permitida."
+          },
+          {
+            q: "¿Cuál es la diferencia fundamental entre un incidente y un problema?",
+            options: [
+              "El incidente lo reporta el cliente, el problema lo detecta TI",
+              "El incidente es la interrupción; el problema es la causa que la origina",
+              "El problema tiene prioridad menor que el incidente",
+              "Son lo mismo con distinto nombre"
+            ],
+            correct: 1,
+            expl: "El incidente es el síntoma (interrupción no planificada); el problema es la causa raíz que puede generar uno o más incidentes."
+          },
+          {
+            q: "En un blameless postmortem, ¿cuál es la práctica correcta al describir errores?",
+            options: [
+              "Nombrar públicamente al ingeniero que ejecutó el comando incorrecto",
+              "Atribuir errores al sistema (falta de guard-rails, alertas, documentación)",
+              "Evitar cualquier mención de errores para no incomodar",
+              "Dejar el análisis de causa fuera del postmortem"
+            ],
+            correct: 1,
+            expl: "El principio blameless asume buena intención y busca condiciones del sistema que permitieron el error. Nombres solo para atribuir acciones positivas."
+          },
+          {
+            q: "¿Cuándo debería activarse Problem Management de manera reactiva?",
+            options: [
+              "Solo cuando un cliente lo solicita explícitamente",
+              "Tras un incidente crítico o cuando se detectan incidentes recurrentes con patrón común",
+              "Nunca; Problem Management es solo proactivo",
+              "Cada vez que se abre cualquier incidente, sin excepción"
+            ],
+            correct: 1,
+            expl: "El disparador reactivo típico es un incidente crítico (P1/P2) o un patrón de reincidencia. Abrir problem por cada incidente saturaría el sistema."
+          }
+        ]
+      }
+    },
+    {
+      id: 3,
+      title: "Change Enablement, Mesa de Servicio y DevSecOps",
+      description: "Cambios en la era CI/CD, mesa moderna y seguridad como práctica cruzada.",
+      lessons: [
+        {
+          id: "L15", day: 15, title: "Change Enablement en ITIL 4",
+          objectives: [
+            "Comprender el cambio de 'Change Management' a 'Change Enablement'",
+            "Reconocer el propósito: maximizar cambios exitosos",
+            "Identificar los tres tipos de cambio"
+          ],
+          content: `
+            <p>ITIL 4 renombró intencionadamente <em>Change Management</em> a <strong>Change Enablement</strong>. El cambio no es enemigo a controlar: es motor de valor a habilitar con seguridad. El objetivo de la práctica es <em>maximizar el número de cambios exitosos</em>.</p>
+            <h3>Los 3 tipos de cambio</h3>
+            <table>
+              <tr><th>Tipo</th><th>Definición</th><th>Autorización</th></tr>
+              <tr><td><strong>Standard</strong></td><td>Bajo riesgo, preaprobado, procedimiento definido</td><td>Automática por procedimiento</td></tr>
+              <tr><td><strong>Normal</strong></td><td>Requiere evaluación caso a caso</td><td>Change Authority (rol, no comité)</td></tr>
+              <tr><td><strong>Emergency</strong></td><td>Debe implementarse ya para resolver un incidente mayor</td><td>Emergency Change Authority (proceso expedito)</td></tr>
+            </table>
+            <h3>El fin del CAB tradicional</h3>
+            <p>El clásico Change Advisory Board (comité semanal) no escala. ITIL 4 permite Change Authorities distribuidas: un tech lead puede aprobar cambios normales de su dominio, un SRE los de infra crítica. El CAB queda para casos de coordinación transversal.</p>
+            <h3>Métricas útiles</h3>
+            <ul>
+              <li><strong>Change success rate</strong> — % de cambios sin causar incidentes.</li>
+              <li><strong>Lead time for changes</strong> — de commit a producción (métrica DORA).</li>
+              <li><strong>Change failure rate</strong> — % de cambios fallidos (métrica DORA).</li>
+              <li><strong>Change velocity</strong> — cambios por unidad de tiempo.</li>
+            </ul>
+          `,
+          bridge: "Change Enablement es la respuesta institucional a la pregunta: ¿cómo aprobamos 200 deploys diarios sin colapsar? Respuesta: la mayoría son Standard Changes preaprobados por su pipeline.",
+          takeaways: [
+            "El propósito es maximizar cambios exitosos, no minimizarlos",
+            "3 tipos: Standard, Normal, Emergency",
+            "CAB tradicional cede ante Change Authorities distribuidas"
+          ]
+        },
+        {
+          id: "L16", day: 16, title: "Tipos de cambio y CAB moderno",
+          objectives: [
+            "Diseñar el catálogo de Standard Changes",
+            "Definir criterios de Change Authority",
+            "Modelar cambios de emergencia sin caos"
+          ],
+          content: `
+            <p>El diseño de tu modelo de cambios define tu velocidad de entrega y tu perfil de riesgo. Aquí lo abordamos con detalle práctico.</p>
+            <h3>Catálogo de Standard Changes</h3>
+            <p>Un cambio es Standard cuando cumple:</p>
+            <ul>
+              <li>Bajo riesgo demostrado (histórico de éxito)</li>
+              <li>Procedimiento documentado y probado</li>
+              <li>Reversibilidad clara</li>
+              <li>Preaprobación registrada</li>
+            </ul>
+            <p>Ejemplos típicos: aplicar parche menor de OS, rotar credenciales, aumentar capacidad autoescalable, deploy en horario definido con tests verdes.</p>
+            <h3>Change Authority: rol, no comité</h3>
+            <p>Distribuye la autoridad por dominio y riesgo:</p>
+            <table>
+              <tr><th>Nivel de riesgo</th><th>Autoridad</th></tr>
+              <tr><td>Bajo (standard)</td><td>Pipeline / política automática</td></tr>
+              <tr><td>Medio (normal)</td><td>Tech Lead o Senior SRE de dominio</td></tr>
+              <tr><td>Alto (normal + impacto ancho)</td><td>Change Authority formal + peer review</td></tr>
+              <tr><td>Muy alto o transversal</td><td>CAB reducido (arquitectura, seguridad, negocio)</td></tr>
+            </table>
+            <h3>Emergency Changes</h3>
+            <p>Debe existir, pero no debe abusarse. Reglas:</p>
+            <ul>
+              <li>Solo para restaurar servicio, no para "urgencias" políticas.</li>
+              <li>Proceso expedito documentado (quién aprueba en 15 min).</li>
+              <li>Post-review obligatorio en 48h.</li>
+              <li>Si &gt; 5% de tus cambios son emergency, algo está roto en tu planning.</li>
+            </ul>
+          `,
+          bridge: "La conversación 'aprobamos por PR o por CAB' se disuelve cuando reconoces que la PR review + tests verdes + pipeline es tu Change Authority automatizado para cambios estándar.",
+          takeaways: [
+            "Standard = bajo riesgo, procedimiento probado, preaprobado",
+            "Distribuye Change Authority por dominio y nivel de riesgo",
+            "Emergency debe ser excepción, no norma"
+          ]
+        },
+        {
+          id: "L17", day: 17, title: "CI/CD como flujo de Standard Changes",
+          objectives: [
+            "Modelar el pipeline como Change Enablement automatizado",
+            "Definir criterios técnicos de preaprobación",
+            "Aplicar patrones GitOps y feature flags"
+          ],
+          content: `
+            <p>Un pipeline CI/CD bien diseñado ES el motor de Standard Changes. Cada merge a main que pasa quality gates califica como cambio preaprobado.</p>
+            <h3>Criterios técnicos de preaprobación</h3>
+            <ul>
+              <li>Cobertura de tests unitarios &gt; umbral</li>
+              <li>Tests de integración verdes</li>
+              <li>SAST/DAST sin findings críticos</li>
+              <li>SCA (dependency scan) sin CVEs high</li>
+              <li>PR con al menos 1 review aprobado</li>
+              <li>Feature flag activo para toggle rápido</li>
+              <li>Canary deployment con métricas de salud</li>
+              <li>Rollback automatizado documentado</li>
+            </ul>
+            <h3>GitOps</h3>
+            <p>GitOps convierte el repositorio en fuente de verdad y en registro auditable de cambios. Cada commit es un ticket de cambio con:</p>
+            <ul>
+              <li>Autor (quién)</li>
+              <li>Timestamp (cuándo)</li>
+              <li>Diff (qué)</li>
+              <li>Descripción (por qué)</li>
+              <li>Reviewer (quién autorizó)</li>
+              <li>CI logs (cómo se validó)</li>
+            </ul>
+            <p>Es un CMDB vivo, auditable, versionado. Auditores modernos lo aceptan; los tradicionales necesitan traducción al vocabulario ITIL.</p>
+            <h3>Progressive delivery</h3>
+            <p>Feature flags + canary + blue/green reducen el <em>blast radius</em> de un cambio. Si algo va mal, no rollback completo: apagar flag o rutear tráfico. Cambio y contingencia son parte del mismo diseño.</p>
+          `,
+          bridge: "El commit-to-production time (métrica DORA) es tu 'lead time for changes' ITIL. Los elite performers están bajo 1 hora. Ese número solo se logra con pipeline como Change Authority.",
+          takeaways: [
+            "CI/CD + quality gates = Standard Change automatizado",
+            "GitOps convierte el repo en registro auditable de cambios",
+            "Feature flags y canary reducen blast radius"
+          ]
+        },
+        {
+          id: "L18", day: 18, title: "DevSecOps: seguridad en el flujo",
+          objectives: [
+            "Aplicar shift-left security en el pipeline",
+            "Integrar controles sin sacrificar velocidad",
+            "Usar threat modeling en cambios significativos"
+          ],
+          content: `
+            <p>DevSecOps integra seguridad en cada etapa del ciclo, en lugar de tratarla como puerta final. El principio: <strong>shift-left</strong> — mover controles cuanto antes en el flujo.</p>
+            <h3>Controles por etapa</h3>
+            <table>
+              <tr><th>Etapa</th><th>Control</th><th>Herramientas típicas</th></tr>
+              <tr><td>Design</td><td>Threat modeling (STRIDE)</td><td>Sesiones facilitadas, IriusRisk</td></tr>
+              <tr><td>Code</td><td>SAST, secret scanning</td><td>SonarQube, Semgrep, GitLeaks</td></tr>
+              <tr><td>Build</td><td>SCA (dependencies)</td><td>Snyk, Dependabot, OWASP DC</td></tr>
+              <tr><td>Package</td><td>Container scanning</td><td>Trivy, Grype, Clair</td></tr>
+              <tr><td>Deploy</td><td>Policy as code</td><td>OPA, Kyverno</td></tr>
+              <tr><td>Runtime</td><td>DAST, RASP, monitoring</td><td>ZAP, Falco</td></tr>
+            </table>
+            <h3>Seguridad como Change Authority</h3>
+            <p>En ITIL 4, la práctica de <em>Information Security Management</em> es transversal. En DevSecOps, se materializa como policies automáticas en el pipeline: si un SAST detecta severidad crítica, el cambio no pasa. Es Change Authority sin humanos.</p>
+            <h3>Threat Modeling (STRIDE)</h3>
+            <p>Para cambios arquitectónicos, aplica <strong>STRIDE</strong>:</p>
+            <ul>
+              <li><strong>S</strong>poofing — suplantación de identidad</li>
+              <li><strong>T</strong>ampering — alteración de datos</li>
+              <li><strong>R</strong>epudiation — negación de acciones</li>
+              <li><strong>I</strong>nformation disclosure — fuga de información</li>
+              <li><strong>D</strong>enial of service</li>
+              <li><strong>E</strong>levation of privilege</li>
+            </ul>
+            <p>Una sesión de 60 min con 3 personas por cada cambio significativo ahorra meses de remediación posterior.</p>
+          `,
+          bridge: "En un mundo con Security as Code, tu OPA policy es documentación ejecutable de tus controles. Auditoría deja de pedir screenshots y empieza a leer YAML.",
+          takeaways: [
+            "Shift-left: controles temprano, automáticos, en pipeline",
+            "Seguridad puede actuar como Change Authority automatizado",
+            "Threat modeling STRIDE para cambios arquitectónicos"
+          ]
+        },
+        {
+          id: "L19", day: 19, title: "Service Desk como práctica ITIL",
+          objectives: [
+            "Comprender el propósito del Service Desk",
+            "Distinguir Service Desk de Incident Management",
+            "Diseñar canales y niveles de servicio"
+          ],
+          content: `
+            <p>El Service Desk es el <strong>punto de contacto único</strong> entre proveedor de servicios y usuarios. Su propósito no es "recibir tickets", sino <em>capturar demanda</em> por resolución y facilitar la comunicación con los usuarios.</p>
+            <h3>Diferencia con Incident Management</h3>
+            <p>El Service Desk es una <em>práctica</em> y también una <em>función organizacional</em>. Incident Management es la práctica que gestiona incidentes. El Service Desk puede iniciar tickets de incident, request, information, feedback. Un incidente puede detectarse por monitoreo sin pasar nunca por Service Desk.</p>
+            <h3>Canales modernos</h3>
+            <ul>
+              <li>Portal web self-service con catálogo</li>
+              <li>ChatOps (Slack, Teams) con bots</li>
+              <li>Email tradicional (perdiendo terreno)</li>
+              <li>Teléfono (solo P1 o segmentos especiales)</li>
+              <li>Chatbot con IA generativa como primer nivel</li>
+            </ul>
+            <h3>Niveles</h3>
+            <table>
+              <tr><th>Nivel</th><th>Rol</th><th>Ejemplo</th></tr>
+              <tr><td>0</td><td>Self-service</td><td>Reset de password, base de conocimiento</td></tr>
+              <tr><td>1</td><td>Generalista</td><td>Categorización, resolución básica</td></tr>
+              <tr><td>2</td><td>Especialista</td><td>Diagnóstico técnico</td></tr>
+              <tr><td>3</td><td>Experto / vendor</td><td>Ingeniería, proveedor</td></tr>
+            </table>
+            <h3>Shift Left</h3>
+            <p>Estrategia: mover resolución al nivel más bajo posible.</p>
+            <ul>
+              <li>De 2 a 1: capacitar y dar runbooks al nivel 1.</li>
+              <li>De 1 a 0: knowledge base + chatbot capaces.</li>
+              <li>De 0 a "no ticket": diseño que evita el problema.</li>
+            </ul>
+          `,
+          bridge: "El shift-left del Service Desk es simétrico al shift-left de DevSecOps: en ambos, mueves la resolución (o el control) cuanto antes en el flujo. Menos fricción, más valor.",
+          takeaways: [
+            "Service Desk = punto único de contacto, captura de demanda",
+            "Distinto de Incident Management (que puede activarse sin Service Desk)",
+            "Shift-left: resolver al nivel más bajo posible"
+          ]
+        },
+        {
+          id: "L20", day: 20, title: "Service Desk moderno: ChatOps, Self-Service, AIOps",
+          objectives: [
+            "Diseñar un Service Desk basado en ChatOps",
+            "Publicar un catálogo self-service usable",
+            "Aplicar AIOps a la triage y resolución"
+          ],
+          content: `
+            <p>El Service Desk moderno no es un lugar: es una <em>experiencia distribuida</em>. Tres tecnologías lo redefinen.</p>
+            <h3>ChatOps</h3>
+            <p>Slack/Teams como interfaz principal. Ventajas:</p>
+            <ul>
+              <li>Los usuarios ya están ahí; sin fricción de canal</li>
+              <li>Comandos de bot para operaciones autoservicio</li>
+              <li>Historial buscable</li>
+              <li>Integración con Jira/ServiceNow por bot</li>
+              <li>Transparencia: incidentes visibles en canales #incidents</li>
+            </ul>
+            <p>Ejemplo: <code>/deploy service-x staging</code> ejecuta un pipeline con auditoría.</p>
+            <h3>Self-Service</h3>
+            <p>Un catálogo self-service potente reduce hasta 40% el volumen de nivel 1. Debe tener:</p>
+            <ul>
+              <li>Búsqueda excelente (¡no menú de 200 items!)</li>
+              <li>Formularios cortos con lógica condicional</li>
+              <li>Estado del pedido en tiempo real</li>
+              <li>SLA visible antes de enviar</li>
+              <li>Aprobaciones simples con notificación</li>
+            </ul>
+            <h3>AIOps</h3>
+            <p>Aplicación de IA/ML en operaciones:</p>
+            <ul>
+              <li>Deduplicación de alertas (miles → decenas)</li>
+              <li>Detección de anomalías en telemetría</li>
+              <li>Correlación cross-dominio (app + infra + red)</li>
+              <li>Sugerencia de solución basada en KEDB</li>
+              <li>Chatbots que resuelven L0 con IA generativa + RAG</li>
+            </ul>
+            <p>Precaución: AIOps sin buena telemetría es humo. Primero, observabilidad sólida.</p>
+          `,
+          bridge: "ChatOps + self-service + AIOps convierten al Service Desk clásico en una capa de <em>experiencia</em> operativa. El agente humano queda para casos complejos, donde su empatía y criterio agregan valor real.",
+          takeaways: [
+            "ChatOps convierte al chat en interfaz operacional auditable",
+            "Self-service bien diseñado reduce hasta 40% carga de L1",
+            "AIOps exige observabilidad sólida como cimiento"
+          ]
+        },
+        {
+          id: "Q3", day: 21, title: "Evaluación · Semana 3", isQuiz: true
+        }
+      ],
+      quiz: {
+        title: "Evaluación · Change, Service Desk y DevSecOps",
+        subtitle: "7 preguntas · consolida la semana",
+        questions: [
+          {
+            q: "¿Cuál es el propósito principal de la práctica de Change Enablement en ITIL 4?",
+            options: [
+              "Minimizar el número de cambios en producción",
+              "Maximizar el número de cambios exitosos",
+              "Centralizar todas las aprobaciones en un CAB semanal",
+              "Impedir cualquier cambio fuera de horario de oficina"
+            ],
+            correct: 1,
+            expl: "ITIL 4 posiciona el cambio como motor de valor. La práctica busca maximizar cambios exitosos, no restringir el volumen."
+          },
+          {
+            q: "¿Qué caracteriza a un Standard Change?",
+            options: [
+              "Requiere aprobación semanal del CAB completo",
+              "Bajo riesgo, procedimiento probado y preaprobado",
+              "Debe implementarse en menos de 1 hora",
+              "Solo aplica a cambios de emergencia"
+            ],
+            correct: 1,
+            expl: "Un Standard Change es preaprobado por su procedimiento y su historial de bajo riesgo. La aprobación es automática por cumplir el procedimiento."
+          },
+          {
+            q: "¿Cuál es la analogía más precisa entre CI/CD y Change Enablement?",
+            options: [
+              "El pipeline reemplaza a Change Enablement por completo",
+              "El pipeline con quality gates funciona como Change Authority automatizado para cambios estándar",
+              "El pipeline es lo mismo que el Service Desk",
+              "El pipeline no tiene relación con ITIL"
+            ],
+            correct: 1,
+            expl: "Cuando el pipeline valida tests, seguridad, revisiones y despliegue controlado, cumple el rol de Change Authority automatizado para cambios preaprobados."
+          },
+          {
+            q: "En DevSecOps, 'shift-left' significa:",
+            options: [
+              "Mover el equipo de seguridad físicamente al lado del equipo de desarrollo",
+              "Aplicar controles de seguridad lo antes posible en el ciclo de vida",
+              "Priorizar seguridad sobre velocidad siempre",
+              "Delegar toda la seguridad al equipo de operaciones"
+            ],
+            correct: 1,
+            expl: "Shift-left significa mover controles (SAST, threat modeling, revisiones) a etapas tempranas del ciclo, donde corregir cuesta órdenes de magnitud menos."
+          },
+          {
+            q: "El Service Desk es principalmente:",
+            options: [
+              "Un equipo dedicado exclusivamente a incidentes P1",
+              "El punto único de contacto entre el proveedor y los usuarios",
+              "Un sistema de ticketing",
+              "Una función que solo aplica en organizaciones grandes"
+            ],
+            correct: 1,
+            expl: "El Service Desk es el punto único de contacto y captura de demanda de los usuarios. Puede materializarse en múltiples canales (portal, chat, teléfono)."
+          },
+          {
+            q: "¿Cuál es una diferencia clave entre Service Desk e Incident Management?",
+            options: [
+              "Son sinónimos",
+              "El Service Desk es una práctica y función de contacto; Incident Management gestiona incidentes (que pueden originarse fuera del Service Desk)",
+              "Incident Management es solo para hardware",
+              "El Service Desk solo atiende requests, no incidentes"
+            ],
+            correct: 1,
+            expl: "Un incidente detectado por monitoreo puede activarse sin pasar por Service Desk. El Service Desk puede iniciar incidentes, requests, feedback o consultas."
+          },
+          {
+            q: "¿Cuál es un prerrequisito crítico para adoptar AIOps con éxito?",
+            options: [
+              "Tener un equipo dedicado a Machine Learning",
+              "Migrar todo a cloud pública",
+              "Contar con observabilidad sólida y datos de telemetría de calidad",
+              "Eliminar completamente al equipo de operaciones"
+            ],
+            correct: 2,
+            expl: "AIOps se alimenta de datos. Sin observabilidad sólida (métricas, logs, traces limpios), los algoritmos no producen valor: solo amplifican ruido."
+          }
+        ]
+      }
+    },
+    {
+      id: 4,
+      title: "Mejora Continua y Alineación Estratégica",
+      description: "El modelo de 7 pasos, métricas DORA + ITIL, VSM, GRC y OKRs.",
+      lessons: [
+        {
+          id: "L22", day: 22, title: "Continual Improvement Model (7 pasos)",
+          objectives: [
+            "Nombrar los 7 pasos del modelo de mejora continua",
+            "Aplicar el modelo a un problema concreto",
+            "Distinguir mejora táctica de mejora estratégica"
+          ],
+          content: `
+            <p>Continual Improvement es una práctica <em>y</em> un elemento del SVS. Es la energía cinética del marco ITIL 4. Su modelo de 7 pasos:</p>
+            <ol>
+              <li><strong>¿Cuál es la visión?</strong> — objetivo estratégico, dirección.</li>
+              <li><strong>¿Dónde estamos ahora?</strong> — assessment, datos reales.</li>
+              <li><strong>¿Dónde queremos estar?</strong> — objetivos SMART.</li>
+              <li><strong>¿Cómo llegaremos?</strong> — plan de acción.</li>
+              <li><strong>Ejecutar</strong> — hacer.</li>
+              <li><strong>¿Llegamos?</strong> — medir, evaluar.</li>
+              <li><strong>¿Cómo mantenemos el impulso?</strong> — consolidar, iterar.</li>
+            </ol>
+            <p>Los pasos son cíclicos: al terminar 7, vuelves a 1 con contexto nuevo. Es un espiral, no un círculo cerrado.</p>
+            <h3>Niveles de aplicación</h3>
+            <p>El modelo aplica a:</p>
+            <ul>
+              <li>Un servicio (mejorar checkout)</li>
+              <li>Una práctica (mejorar Incident Management)</li>
+              <li>Un equipo (mejorar velocidad)</li>
+              <li>La organización (transformación)</li>
+            </ul>
+            <h3>El Continual Improvement Register (CIR)</h3>
+            <p>Backlog priorizado de ideas de mejora. Cualquiera puede aportar. La priorización se hace por valor esperado vs esfuerzo. Es el equivalente a un "backlog de deuda técnica y operativa" con formato estándar.</p>
+          `,
+          bridge: "El Continual Improvement Register es tu backlog de retrospectivas convertido en artefacto oficial. Un lugar único donde equipo, negocio y auditoría pueden ver qué mejoramos y cómo.",
+          takeaways: [
+            "El modelo tiene 7 pasos, aplicables en cualquier nivel",
+            "Es un espiral: cada ciclo con contexto nuevo",
+            "El CIR es tu backlog centralizado de mejora"
+          ]
+        },
+        {
+          id: "L23", day: 23, title: "Métricas: DORA + ITIL KPIs",
+          objectives: [
+            "Nombrar las 4 métricas DORA",
+            "Cruzar métricas DORA con KPIs ITIL clásicos",
+            "Diseñar un dashboard equilibrado"
+          ],
+          content: `
+            <p>DORA (DevOps Research and Assessment) identifica 4 métricas que correlacionan con desempeño elite:</p>
+            <table>
+              <tr><th>Métrica DORA</th><th>Qué mide</th><th>Elite performer</th></tr>
+              <tr><td>Deployment Frequency</td><td>Frecuencia de despliegues a producción</td><td>Múltiples veces al día</td></tr>
+              <tr><td>Lead Time for Changes</td><td>De commit a producción</td><td>&lt; 1 hora</td></tr>
+              <tr><td>Change Failure Rate</td><td>% de cambios que causan fallo</td><td>0–15%</td></tr>
+              <tr><td>MTTR / Time to Restore</td><td>Tiempo de restauración</td><td>&lt; 1 hora</td></tr>
+            </table>
+            <h3>Cruce con ITIL</h3>
+            <table>
+              <tr><th>DORA</th><th>ITIL KPI equivalente</th></tr>
+              <tr><td>Deployment Frequency</td><td>Change velocity (nº cambios/mes)</td></tr>
+              <tr><td>Lead Time for Changes</td><td>Change lead time</td></tr>
+              <tr><td>Change Failure Rate</td><td>Change failure rate / failed changes ratio</td></tr>
+              <tr><td>MTTR</td><td>Mean time to restore service</td></tr>
+            </table>
+            <p>El vocabulario ITIL y el vocabulario DORA nombran lo mismo. Puedes hablar con auditoría en ITIL y con producto en DORA — pero medir un único set.</p>
+            <h3>Dashboard equilibrado</h3>
+            <p>Añade métricas de servicio (SLO adherence, error budget consumido), de satisfacción (CSAT del Service Desk) y de riesgo (findings críticos de seguridad abiertos). Un dashboard solo de DORA es incompleto; solo de ITIL puede quedarse en actividad sin resultado.</p>
+          `,
+          bridge: "El estado DORA anual es una fotografía global de la industria. Compárate honestamente. Elite performers tienen 973x más deploys y 6570x menor lead time que los low performers. La brecha es enorme.",
+          takeaways: [
+            "4 métricas DORA: freq, lead time, change failure, MTTR",
+            "DORA y KPIs ITIL nombran lo mismo con distinto vocabulario",
+            "Un dashboard equilibrado suma satisfacción y riesgo"
+          ]
+        },
+        {
+          id: "L24", day: 24, title: "Value Stream Mapping y Kaizen",
+          objectives: [
+            "Ejecutar un ejercicio de Value Stream Mapping",
+            "Distinguir tiempo de actividad de tiempo de espera",
+            "Aplicar Kaizen para mejora incremental sostenida"
+          ],
+          content: `
+            <p>Value Stream Mapping (VSM) es una técnica Lean para hacer visible cada paso de un flujo, con sus tiempos. Es la mejor herramienta para atacar el ~80% de tiempo en espera que caracteriza a flujos no optimizados.</p>
+            <h3>Cómo se hace un VSM</h3>
+            <ol>
+              <li>Elige el value stream (ej. release, onboarding de un nuevo servicio, incident response).</li>
+              <li>Mapea cada paso, quién lo ejecuta, la herramienta.</li>
+              <li>Mide para cada paso: <em>Process Time</em> (tiempo real trabajando) y <em>Lead Time</em> (tiempo total desde entrada hasta salida).</li>
+              <li>Calcula <em>Activity Ratio</em>: PT / LT. Típicamente &lt; 20%.</li>
+              <li>Identifica los mayores waits y las causas.</li>
+              <li>Diseña el <em>future state</em>.</li>
+              <li>Prioriza acciones para llegar ahí.</li>
+            </ol>
+            <h3>Kaizen: mejora incremental</h3>
+            <p>Kaizen (改善) = "mejora buena", en filosofía Toyota. Pequeñas mejoras diarias, hechas por quienes ejecutan el trabajo. No requiere presupuesto especial ni transformación grande.</p>
+            <ul>
+              <li>Kaizen diaria: cada equipo dedica 10% del tiempo a mejorar cómo trabaja</li>
+              <li>Kaizen event (Blitz): 3-5 días intensivos con equipo cross-funcional para atacar un flujo</li>
+              <li>Sugerencias: cualquiera propone, se evalúa rápido, se ejecuta</li>
+            </ul>
+            <h3>Anti-patrón: sólo eventos grandes</h3>
+            <p>Muchas organizaciones esperan al "gran proyecto de transformación" para mejorar. Kaizen dice: mejora hoy, con lo que tienes, en lo que controlas. La suma de miles de mejoras pequeñas gana a un proyecto grande cada vez.</p>
+          `,
+          bridge: "Un buen VSM muestra que optimizar handoffs entre equipos rinde 10x más que optimizar el trabajo interno de cada equipo. Ahí está el gran desperdicio: en las esperas entre.",
+          takeaways: [
+            "VSM revela ratio actividad/espera (típicamente &lt; 20%)",
+            "Optimizar handoffs rinde más que optimizar equipos aislados",
+            "Kaizen: mejora incremental sostenida, desde el equipo"
+          ]
+        },
+        {
+          id: "L25", day: 25, title: "Gobierno, Riesgo y Cumplimiento (GRC)",
+          objectives: [
+            "Ubicar Gobierno en el SVS",
+            "Distinguir Risk Management de Information Security Management",
+            "Integrar cumplimiento en el flujo, no como puerta"
+          ],
+          content: `
+            <p>Gobierno, Riesgo y Cumplimiento no son enemigos de DevOps: son <em>requisitos del sistema</em> que puedes atender bien o mal. El enfoque moderno los integra en el flujo.</p>
+            <h3>Gobierno en ITIL 4</h3>
+            <p>Es uno de los cinco componentes del SVS. Define dirección, evalúa, monitorea. En la práctica: políticas, arquitectura de referencia, standards, autoridad de decisión.</p>
+            <h3>Risk Management</h3>
+            <p>Práctica ITIL de gestión general. Identificar, evaluar, tratar riesgos operativos, financieros, reputacionales, de cumplimiento. En DevOps se materializa como:</p>
+            <ul>
+              <li>Risk register vivo, no artefacto de biblioteca</li>
+              <li>Análisis de riesgo integrado a threat modeling</li>
+              <li>Chaos engineering como validación de mitigaciones</li>
+              <li>Error budgets como <em>appetite</em> de riesgo cuantificado</li>
+            </ul>
+            <h3>Information Security Management</h3>
+            <p>Distinta de Risk Management (aunque conectada): enfocada en confidencialidad, integridad, disponibilidad. Sus controles se materializan como Security as Code, OPA policies, Zero Trust, IAM.</p>
+            <h3>Compliance en el flujo</h3>
+            <p>Estrategia: <strong>evidencia como subproducto del pipeline</strong>. Cada control se convierte en:</p>
+            <ul>
+              <li>Log de pipeline (quién, cuándo, qué)</li>
+              <li>Merge policy (quién puede mergear a main)</li>
+              <li>Deploy policy (qué se puede desplegar a prod)</li>
+              <li>Signed commits, provenance (SLSA)</li>
+              <li>Reportes automáticos exportables (SOC 2, ISO 27001, PCI-DSS)</li>
+            </ul>
+            <p>Auditoría deja de pedir capturas: consulta el sistema fuente. Cumplimiento pasa de fricción a resultado.</p>
+          `,
+          bridge: "SLSA (Supply-chain Levels for Software Artifacts) es hoy el estándar emergente para probar procedencia y control del build. Súmalo a tu pipeline: eleva tu perfil ante cualquier auditoría.",
+          takeaways: [
+            "Gobierno es componente del SVS, no un comité aparte",
+            "Error budgets son apetito de riesgo cuantificado",
+            "Cumplimiento como subproducto del pipeline elimina fricción"
+          ]
+        },
+        {
+          id: "L26", day: 26, title: "Estrategia: OKRs + ITIL + DevOps",
+          objectives: [
+            "Alinear OKRs con prácticas ITIL y métricas DORA",
+            "Diseñar cascadas de OKR consistentes",
+            "Evitar métricas de vanidad"
+          ],
+          content: `
+            <p>OKRs (Objectives and Key Results) son la forma dominante de alinear estrategia y ejecución. Bien diseñados, se conectan a ITIL y DORA sin fricción.</p>
+            <h3>Estructura básica</h3>
+            <p><strong>Objective</strong>: aspiracional, cualitativo, inspirador. <strong>Key Results</strong>: 2-4 métricas concretas, medibles, con umbral. Timebox trimestral típicamente.</p>
+            <p>Ejemplo:</p>
+            <ul>
+              <li><em>Objective</em>: Ser el proveedor más confiable de checkout en LATAM.</li>
+              <li><em>KR1</em>: SLO de disponibilidad de checkout &gt; 99.95% en Q3.</li>
+              <li><em>KR2</em>: MTTR &lt; 20 min en incidentes de checkout.</li>
+              <li><em>KR3</em>: Change failure rate del pipeline de pagos &lt; 5%.</li>
+              <li><em>KR4</em>: NPS de checkout &gt; 55.</li>
+            </ul>
+            <h3>Cascadas alineadas</h3>
+            <p>Los OKRs de equipo se conectan a OKRs de área, y estos a los de la empresa. Alinear no es cascadear literal: un equipo puede aportar a un OKR corporativo con un OKR distinto.</p>
+            <h3>Anti-patrones</h3>
+            <ul>
+              <li><strong>KRs de actividad</strong>: "hacer X sesiones de Y" — mide effort, no valor.</li>
+              <li><strong>Vanity metrics</strong>: "1M usuarios activos" sin baseline ni acción.</li>
+              <li><strong>OKR-washing</strong>: renombrar el roadmap como OKRs.</li>
+              <li><strong>Puntos por KR</strong>: convierte OKR en juego.</li>
+            </ul>
+            <h3>Puente con ITIL y SRE</h3>
+            <p>Los KRs pueden y deben incluir métricas de DORA, SLO adherence, error budget consumido, satisfacción del Service Desk. Así OKRs no viven en un doc estratégico: viven en el dashboard operativo diario.</p>
+          `,
+          bridge: "Un OKR sin métrica operativa medible en el dashboard del equipo es un buen deseo. Un OKR con SLO adherence y DORA es un compromiso ejecutable.",
+          takeaways: [
+            "OKR = Objective aspiracional + 2-4 KRs medibles",
+            "Los KRs pueden usar métricas DORA, SLO, satisfacción",
+            "Evita KRs de actividad y vanity metrics"
+          ]
+        },
+        {
+          id: "L27", day: 27, title: "Caso Práctico Integrador",
+          objectives: [
+            "Aplicar todo el marco a un caso real",
+            "Identificar prácticas activas simultáneamente",
+            "Diseñar mejoras cross-práctica"
+          ],
+          content: `
+            <p>Caso: <strong>Streaming financiero LATAM.</strong> Fintech con 5M usuarios, checkout crítico, 40 microservicios, 60 ingenieros, equipo de plataforma dedicado, auditoría PCI-DSS y regulación bancaria.</p>
+            <h3>Contexto de dolor</h3>
+            <ul>
+              <li>Deploys 2 veces/semana, con freeze frecuente</li>
+              <li>MTTR promedio 4 horas</li>
+              <li>CAB semanal que aprueba 80 cambios en 2 horas (calidad baja)</li>
+              <li>SRE existe pero opera reactivo</li>
+              <li>Service Desk saturado en L1</li>
+            </ul>
+            <h3>Diagnóstico usando ITIL 4</h3>
+            <p><strong>Change Enablement:</strong> el CAB tradicional es el cuello de botella. Solución: catálogo de Standard Changes para cambios de bajo riesgo (deploys que pasan pipeline con canary), Change Authority distribuida por dominio, CAB solo para transversales.</p>
+            <p><strong>Incident Management + SRE:</strong> MTTR alto por falta de observabilidad y runbooks. Definir SLI/SLO por servicio crítico, invertir en telemetría, generar runbooks vivos, ejercitar on-call con game days.</p>
+            <p><strong>Problem Management:</strong> no existe formal. Instituir blameless postmortems obligatorios en P1/P2, KEDB alimentada por postmortems, review mensual de trends por SRE.</p>
+            <p><strong>Service Desk:</strong> saturación en L1 = falta de self-service. Publicar catálogo self-service, bot en ChatOps con IA generativa para L0, KB desde postmortems.</p>
+            <p><strong>Continual Improvement:</strong> CIR único donde entran acciones de postmortems, retros, security findings, sugerencias. Reviewed cada 2 semanas por líderes.</p>
+            <h3>Cronograma sugerido</h3>
+            <ul>
+              <li>Mes 1-2: SLI/SLO, telemetría, postmortems obligatorios</li>
+              <li>Mes 3-4: Standard Changes + rediseño CAB</li>
+              <li>Mes 5-6: Self-service + ChatOps</li>
+              <li>Mes 7-9: AIOps piloto, medición DORA/ITIL, OKR alineados</li>
+            </ul>
+            <p>Resultado esperado a 12 meses: 10x deploys, MTTR &lt; 45 min, change failure rate &lt; 10%, NPS Service Desk +20 puntos.</p>
+          `,
+          bridge: "El caso muestra que ITIL 4 no es documentación: es diseño de cambio organizacional. Cada práctica se materializa en decisiones técnicas concretas.",
+          takeaways: [
+            "El diagnóstico ITIL revela cuellos de botella accionables",
+            "Las prácticas se activan simultáneamente, no en secuencia",
+            "Un roadmap realista prioriza fundamentos (observabilidad) primero"
+          ]
+        },
+        {
+          id: "Q4", day: 28, title: "Evaluación Final + Certificación", isQuiz: true
+        }
+      ],
+      quiz: {
+        title: "Evaluación Final · Integrador",
+        subtitle: "10 preguntas · consolidación del plan completo",
+        questions: [
+          {
+            q: "¿Cuántos pasos tiene el modelo de mejora continua de ITIL 4?",
+            options: ["5", "6", "7", "10"],
+            correct: 2,
+            expl: "El modelo de mejora continua tiene 7 pasos, desde la visión estratégica hasta el mantenimiento del impulso."
+          },
+          {
+            q: "¿Cuáles son las 4 métricas DORA?",
+            options: [
+              "Uptime, latencia, throughput, satisfacción",
+              "Deployment Frequency, Lead Time for Changes, Change Failure Rate, MTTR",
+              "SLI, SLO, SLA, Error Budget",
+              "MTTA, MTTR, MTBF, MTTF"
+            ],
+            correct: 1,
+            expl: "Las 4 métricas DORA son Deployment Frequency, Lead Time for Changes, Change Failure Rate y MTTR/Time to Restore."
+          },
+          {
+            q: "¿Qué revela típicamente un Value Stream Map?",
+            options: [
+              "Que el equipo trabaja demasiado rápido",
+              "Que la mayoría del lead time es tiempo de espera, no de actividad",
+              "Que la calidad del código es mala",
+              "Que sobra presupuesto"
+            ],
+            correct: 1,
+            expl: "Un VSM típicamente muestra que menos del 20% del lead time es actividad real; el resto son handoffs, esperas y colas."
+          },
+          {
+            q: "En una organización madura, la evidencia para auditoría de cambios debería:",
+            options: [
+              "Recolectarse manualmente al final de cada trimestre",
+              "Producirse como subproducto del pipeline (logs, policies, provenance)",
+              "Estar centralizada en una biblioteca Excel",
+              "Ser responsabilidad exclusiva del área de compliance"
+            ],
+            correct: 1,
+            expl: "El enfoque moderno convierte el pipeline en fuente de evidencia. Auditoría consulta el sistema en lugar de pedir capturas manuales."
+          },
+          {
+            q: "¿Cuál es el rol del error budget en decisiones de negocio?",
+            options: [
+              "Es un indicador financiero sin uso operativo",
+              "Convierte la decisión 'velocidad vs confiabilidad' en decisión basada en datos",
+              "Se calcula una vez al año",
+              "Solo aplica a servicios internos"
+            ],
+            correct: 1,
+            expl: "El error budget cuantifica el margen aceptable. Si se agota, se pausan cambios riesgosos y se enfoca en confiabilidad. Es apetito de riesgo ejecutable."
+          },
+          {
+            q: "¿Cuál de los siguientes es un anti-patrón de OKRs?",
+            options: [
+              "Definir 2-4 Key Results medibles por Objective",
+              "Alinear OKRs con métricas DORA e ITIL",
+              "Usar KRs de actividad como 'hacer X sesiones' en lugar de resultados",
+              "Reevaluar OKRs cada trimestre"
+            ],
+            correct: 2,
+            expl: "Los KRs de actividad miden esfuerzo, no valor. Un buen KR mide un resultado observable (SLO, NPS, revenue, MTTR)."
+          },
+          {
+            q: "El Continual Improvement Register (CIR) es:",
+            options: [
+              "Un documento legal auditable",
+              "Un backlog priorizado de ideas de mejora, alimentado por cualquier persona",
+              "Un dashboard de métricas financieras",
+              "Una lista de cambios rechazados"
+            ],
+            correct: 1,
+            expl: "El CIR es el backlog centralizado de mejoras. Cualquiera aporta; se prioriza por valor/esfuerzo. Es el mecanismo que hace visible la mejora continua."
+          },
+          {
+            q: "¿Cuál es el mayor beneficio de integrar seguridad como policy as code (ej. OPA)?",
+            options: [
+              "Sustituye al equipo de seguridad",
+              "Convierte controles en artefactos ejecutables y auditables sin intervención manual",
+              "Elimina la necesidad de threat modeling",
+              "Reduce el costo de licencias"
+            ],
+            correct: 1,
+            expl: "Policy as code automatiza controles como gates en el pipeline. Auditoría lee la policy y logs; no hay pasos manuales para incumplir."
+          },
+          {
+            q: "Para reducir la carga del Service Desk L1, la estrategia más efectiva es:",
+            options: [
+              "Contratar más agentes L1",
+              "Alargar los horarios de atención",
+              "Aplicar 'shift-left' con self-service, KB y ChatOps",
+              "Eliminar el Service Desk"
+            ],
+            correct: 2,
+            expl: "El shift-left mueve resolución al nivel más bajo posible: L0 con self-service y bots resuelve solicitudes repetitivas. L1 queda para casos que agregan valor humano."
+          },
+          {
+            q: "¿Cuál es la mejor síntesis de la relación ITIL 4 – DevOps – SRE?",
+            options: [
+              "ITIL reemplaza a DevOps y SRE",
+              "DevOps y SRE reemplazan a ITIL",
+              "ITIL aporta modelo operativo integrador; DevOps aporta cultura y flujo; SRE aporta ingeniería de confiabilidad; se complementan",
+              "Los tres son incompatibles"
+            ],
+            correct: 2,
+            expl: "Son marcos complementarios en capas distintas. ITIL da vocabulario y estructura, DevOps da cultura y flujo, SRE da rigor de ingeniería en confiabilidad."
+          }
+        ]
+      }
+    }
+  ]
+};
+
+// Add totals
+COURSE.totalLessons = 0;
+COURSE.weeks.forEach(w => { COURSE.totalLessons += w.lessons.filter(l => !l.isQuiz).length; });
+
+// ==================== STATE ====================
+const STATE = {
+  view: 'home',
+  currentLessonId: null,
+  currentQuizWeek: null,
+  quizAnswers: {},
+  quizSubmitted: false,
+  progress: {
+    completed: new Set(),
+    quizScores: {},
+    last: null
+  }
+};
+
+function loadProgress() {
+  try {
+    const raw = localStorage.getItem('itilearn_progress');
+    if (raw) {
+      const p = JSON.parse(raw);
+      STATE.progress.completed = new Set(p.completed || []);
+      STATE.progress.quizScores = p.quizScores || {};
+      STATE.progress.last = p.last || null;
+    }
+  } catch (e) { console.warn('Load failed', e); }
+}
+function saveProgress() {
+  try {
+    localStorage.setItem('itilearn_progress', JSON.stringify({
+      completed: [...STATE.progress.completed],
+      quizScores: STATE.progress.quizScores,
+      last: STATE.progress.last
+    }));
+  } catch (e) { console.warn('Save failed', e); }
+}
+
+// Theme
+function toggleTheme() {
+  const cur = document.documentElement.getAttribute('data-theme');
+  const next = cur === 'dark' ? 'light' : (cur === 'light' ? 'dark' : 'dark');
+  document.documentElement.setAttribute('data-theme', next);
+  try { localStorage.setItem('itilearn_theme', next); } catch(e){}
+}
+function loadTheme() {
+  try {
+    const t = localStorage.getItem('itilearn_theme');
+    if (t) document.documentElement.setAttribute('data-theme', t);
+  } catch(e){}
+}
+
+// ==================== ROUTER ====================
+function go(view, opts) {
+  STATE.view = view;
+  document.querySelectorAll('.view').forEach(v => v.classList.remove('active'));
+  document.getElementById('view-' + view).classList.add('active');
+  document.querySelectorAll('.nav-link').forEach(n => {
+    n.classList.toggle('active', n.dataset.view === view);
+  });
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+  if (view === 'catalog') renderCatalog();
+  if (view === 'dashboard') renderDashboard();
+  if (view === 'lesson' && opts && opts.lessonId) renderLesson(opts.lessonId);
+  if (view === 'quiz' && opts && opts.weekId) renderQuiz(opts.weekId);
+  if (view === 'home') renderHome();
+}
+
+// ==================== HOME ====================
+function renderHome() {
+  const roadmap = document.getElementById('homeRoadmap');
+  roadmap.innerHTML = COURSE.weeks.map(w => {
+    const total = w.lessons.filter(l => !l.isQuiz).length;
+    const done = w.lessons.filter(l => !l.isQuiz && STATE.progress.completed.has(l.id)).length;
+    return `
+      <div class="week-card" onclick="openWeek(${w.id})">
+        <div class="week-num">SEMANA ${String(w.id).padStart(2, '0')}</div>
+        <h3>${w.title}</h3>
+        <p>${w.description}</p>
+        <div class="week-meta">
+          <span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M3 10h18M8 2v4M16 2v4"/></svg> ${total} lecciones</span>
+          <span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 11l3 3 8-8"/><path d="M20 12v6a2 2 0 01-2 2H6a2 2 0 01-2-2V6a2 2 0 012-2h9"/></svg> 1 evaluación</span>
+          <span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2v10l6 3"/><circle cx="12" cy="12" r="10"/></svg> ${done}/${total}</span>
+        </div>
+      </div>
+    `;
+  }).join('');
+  const started = STATE.progress.completed.size > 0 || STATE.progress.last;
+  document.getElementById('startBtnLabel').textContent = started ? 'Continuar plan' : 'Empezar el plan';
+}
+
+function openWeek(id) {
+  go('catalog');
+  setTimeout(() => {
+    const el = document.getElementById('week-' + id);
+    if (el) { el.classList.add('open'); el.scrollIntoView({ behavior: 'smooth', block: 'start' }); }
+  }, 100);
+}
+
+function startOrResume() {
+  if (STATE.progress.last) {
+    const l = findLesson(STATE.progress.last);
+    if (l) {
+      if (l.lesson.isQuiz) go('quiz', { weekId: l.week.id });
+      else go('lesson', { lessonId: l.lesson.id });
+      return;
+    }
+  }
+  // Find first not completed
+  for (const w of COURSE.weeks) {
+    for (const l of w.lessons) {
+      if (!l.isQuiz && !STATE.progress.completed.has(l.id)) {
+        go('lesson', { lessonId: l.id });
+        return;
+      }
+      if (l.isQuiz && !STATE.progress.quizScores[w.id]) {
+        go('quiz', { weekId: w.id });
+        return;
+      }
+    }
+  }
+  // All done
+  go('dashboard');
+}
+
+// ==================== CATALOG ====================
+function renderCatalog() {
+  const host = document.getElementById('catalogList');
+  host.innerHTML = COURSE.weeks.map(w => {
+    const total = w.lessons.filter(l => !l.isQuiz).length;
+    const done = w.lessons.filter(l => !l.isQuiz && STATE.progress.completed.has(l.id)).length;
+    const pct = total ? Math.round((done / total) * 100) : 0;
+    const circ = 2 * Math.PI * 22;
+    const off = circ - (pct / 100) * circ;
+    return `
+      <div class="catalog-week" id="week-${w.id}">
+        <div class="catalog-week-header" onclick="toggleWeek(${w.id})">
+          <div class="progress-ring" title="${pct}%">
+            <svg viewBox="0 0 52 52">
+              <circle class="track" cx="26" cy="26" r="22"/>
+              <circle class="fill" cx="26" cy="26" r="22" stroke-dasharray="${circ}" stroke-dashoffset="${off}"/>
+            </svg>
+            <div class="progress-ring-text">${pct}%</div>
+          </div>
+          <div class="catalog-week-info">
+            <div class="catalog-week-title">Semana ${w.id} · ${w.title}</div>
+            <div class="catalog-week-desc">${w.description}</div>
+          </div>
+          <div class="chevron"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg></div>
+        </div>
+        <div class="catalog-lessons">
+          ${w.lessons.map(l => {
+            const isDone = STATE.progress.completed.has(l.id) || (l.isQuiz && STATE.progress.quizScores[w.id]);
+            const check = isDone ? '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg>' : '';
+            const meta = l.isQuiz
+              ? `<span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 11l3 3 8-8"/><path d="M20 12v6a2 2 0 01-2 2H6a2 2 0 01-2-2V6a2 2 0 012-2h9"/></svg> Evaluación</span>`
+              : `<span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg> 60 min</span>
+                 <span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 19.5A2.5 2.5 0 016.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 014 19.5v-15A2.5 2.5 0 016.5 2z"/></svg> Teoría + práctica</span>`;
+            const action = l.isQuiz ? 'openQuiz(' + w.id + ')' : `openLesson('${l.id}')`;
+            return `
+              <div class="lesson-row ${l.isQuiz ? 'is-quiz' : ''}" onclick="${action}">
+                <div class="lesson-check ${isDone ? 'done' : ''}">${check}</div>
+                <div class="lesson-body">
+                  <div class="lesson-day">DÍA ${String(l.day).padStart(2, '0')}</div>
+                  <div class="lesson-title">${l.title}</div>
+                  <div class="lesson-meta">${meta}</div>
+                </div>
+                <div class="lesson-cta">${l.isQuiz ? 'Iniciar quiz →' : 'Ver lección →'}</div>
+              </div>
+            `;
+          }).join('')}
+        </div>
+      </div>
+    `;
+  }).join('');
+}
+
+function toggleWeek(id) {
+  const el = document.getElementById('week-' + id);
+  el.classList.toggle('open');
+}
+
+function openLesson(id) {
+  STATE.progress.last = id;
+  saveProgress();
+  go('lesson', { lessonId: id });
+}
+function openQuiz(weekId) {
+  const w = COURSE.weeks.find(x => x.id === weekId);
+  const quizLesson = w.lessons.find(l => l.isQuiz);
+  STATE.progress.last = quizLesson.id;
+  saveProgress();
+  go('quiz', { weekId });
+}
+
+// ==================== LESSON ====================
+function findLesson(id) {
+  for (const w of COURSE.weeks) {
+    for (let i = 0; i < w.lessons.length; i++) {
+      if (w.lessons[i].id === id) return { week: w, lesson: w.lessons[i], idx: i };
+    }
+  }
+  return null;
+}
+
+function findAdjacent(id) {
+  const flat = [];
+  COURSE.weeks.forEach(w => w.lessons.forEach(l => flat.push({ week: w, lesson: l })));
+  const i = flat.findIndex(x => x.lesson.id === id);
+  return { prev: flat[i - 1] || null, next: flat[i + 1] || null };
+}
+
+function renderLesson(id) {
+  const found = findLesson(id);
+  if (!found) { go('catalog'); return; }
+  const { week, lesson } = found;
+  if (lesson.isQuiz) { go('quiz', { weekId: week.id }); return; }
+  const isDone = STATE.progress.completed.has(lesson.id);
+  const { prev, next } = findAdjacent(id);
+
+  const host = document.getElementById('lessonHost');
+  host.innerHTML = `
+    <div class="lesson-wrap">
+      <div>
+        <div class="crumbs">
+          <a href="#" onclick="go('catalog');return false">Catálogo</a>
+          <span>›</span>
+          <a href="#" onclick="openWeek(${week.id});return false">Semana ${week.id}</a>
+          <span>›</span>
+          <span style="color:var(--text-2)">Día ${lesson.day}</span>
+        </div>
+        <div class="lesson-header">
+          <h1>${lesson.title}</h1>
+          <div class="lesson-header-meta">
+            <span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg> 60 minutos</span>
+            <span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 19.5A2.5 2.5 0 016.5 17H20"/></svg> Semana ${week.id}</span>
+            <span class="badge-devops dev">DevOps</span>
+            <span class="badge-devops sre">SRE</span>
+            ${week.id === 3 ? '<span class="badge-devops sec">DevSecOps</span>' : ''}
+          </div>
+        </div>
+
+        <div class="callout">
+          <div class="callout-title">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M9 11l3 3 8-8"/><path d="M20 12v6a2 2 0 01-2 2H6a2 2 0 01-2-2V6a2 2 0 012-2h9"/></svg>
+            Objetivos de aprendizaje
+          </div>
+          <ul>${lesson.objectives.map(o => `<li>${o}</li>`).join('')}</ul>
+        </div>
+
+        <div class="lesson-content">${lesson.content}</div>
+
+        <div class="callout devops">
+          <div class="callout-title">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="10"/><path d="M2 12h20M12 2a15.3 15.3 0 010 20M12 2a15.3 15.3 0 000 20"/></svg>
+            Puente DevOps / SRE / DevSecOps
+          </div>
+          <p>${lesson.bridge}</p>
+        </div>
+
+        <div class="callout success">
+          <div class="callout-title">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M12 2l3 7h7l-5.5 4.5L18 21l-6-4-6 4 1.5-7.5L2 9h7z"/></svg>
+            Puntos clave para llevar
+          </div>
+          <ul>${lesson.takeaways.map(t => `<li>${t}</li>`).join('')}</ul>
+        </div>
+
+        <div style="margin-top:32px; display:flex; gap:12px; align-items:center; flex-wrap:wrap">
+          <button class="btn ${isDone ? 'btn-secondary' : 'btn-primary'}" onclick="toggleComplete('${lesson.id}')">
+            ${isDone
+              ? '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg> Completada'
+              : '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="10"/></svg> Marcar como completada'}
+          </button>
+          ${isDone ? '<span style="font-size:13px;color:var(--success);font-weight:600">✓ Progreso guardado</span>' : ''}
+        </div>
+
+        <div class="lesson-nav">
+          ${prev ? `<button class="btn btn-secondary prev" onclick="${prev.lesson.isQuiz ? `openQuiz(${prev.week.id})` : `openLesson('${prev.lesson.id}')`}">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="15 18 9 12 15 6"/></svg>
+            Anterior
+          </button>` : '<div></div>'}
+          ${next ? `<button class="btn btn-primary next" onclick="${next.lesson.isQuiz ? `openQuiz(${next.week.id})` : `openLesson('${next.lesson.id}')`}">
+            ${next.lesson.isQuiz ? 'Ir a evaluación' : 'Siguiente'}
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="9 18 15 12 9 6"/></svg>
+          </button>` : ''}
+        </div>
+      </div>
+
+      <aside class="lesson-side">
+        <div class="side-card">
+          <div class="side-title">Ruta de la semana</div>
+          <ul class="side-list">
+            ${week.lessons.map((l, i) => `
+              <li>
+                <div class="side-list-num">${i + 1}</div>
+                <div style="flex:1">
+                  <div style="font-weight:${l.id === lesson.id ? '700' : '500'};color:${l.id === lesson.id ? 'var(--brand)' : 'var(--text-2)'};font-size:13px;cursor:pointer" onclick="${l.isQuiz ? `openQuiz(${week.id})` : `openLesson('${l.id}')`}">
+                    ${l.title}
+                  </div>
+                </div>
+                ${STATE.progress.completed.has(l.id) || (l.isQuiz && STATE.progress.quizScores[week.id]) ? '<svg style="color:var(--success)" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg>' : ''}
+              </li>
+            `).join('')}
+          </ul>
+        </div>
+        <div class="side-card">
+          <div class="side-title">Tu progreso</div>
+          <div style="font-size:32px;font-weight:800;letter-spacing:-0.02em">${STATE.progress.completed.size}<span style="font-size:16px;color:var(--text-3);font-weight:600">/${COURSE.totalLessons}</span></div>
+          <div style="font-size:13px;color:var(--text-2);margin-top:4px">lecciones completadas</div>
+          <div style="height:6px;background:var(--surface-3);border-radius:999px;margin-top:14px;overflow:hidden">
+            <div style="height:100%;background:var(--grad);width:${Math.round(STATE.progress.completed.size/COURSE.totalLessons*100)}%;border-radius:999px;transition:width .4s"></div>
+          </div>
+        </div>
+      </aside>
+    </div>
+  `;
+}
+
+function toggleComplete(id) {
+  if (STATE.progress.completed.has(id)) STATE.progress.completed.delete(id);
+  else STATE.progress.completed.add(id);
+  saveProgress();
+  renderLesson(id);
+}
+
+// ==================== QUIZ ====================
+function renderQuiz(weekId) {
+  const w = COURSE.weeks.find(x => x.id === weekId);
+  if (!w) { go('catalog'); return; }
+  STATE.currentQuizWeek = weekId;
+  STATE.quizAnswers = {};
+  STATE.quizSubmitted = false;
+
+  const host = document.getElementById('quizHost');
+  host.innerHTML = `
+    <div class="quiz-wrap">
+      <div class="crumbs" style="margin-bottom:20px">
+        <a href="#" onclick="go('catalog');return false">Catálogo</a>
+        <span>›</span>
+        <a href="#" onclick="openWeek(${w.id});return false">Semana ${w.id}</a>
+        <span>›</span>
+        <span style="color:var(--text-2)">Evaluación</span>
+      </div>
+      <div class="quiz-header">
+        <h1>${w.quiz.title}</h1>
+        <p>${w.quiz.subtitle}</p>
+      </div>
+      <div class="quiz-progress">
+        <div class="quiz-progress-bar"><div class="quiz-progress-fill" id="quizBar" style="width:0%"></div></div>
+        <div class="quiz-progress-count" id="quizCount">0/${w.quiz.questions.length}</div>
+      </div>
+      <div id="quizBody"></div>
+    </div>
+  `;
+  renderQuizQuestions();
+}
+
+function renderQuizQuestions() {
+  const w = COURSE.weeks.find(x => x.id === STATE.currentQuizWeek);
+  const body = document.getElementById('quizBody');
+  body.innerHTML = w.quiz.questions.map((q, qi) => {
+    const selected = STATE.quizAnswers[qi];
+    const submitted = STATE.quizSubmitted;
+    return `
+      <div class="question-card">
+        <div class="question-text">${qi + 1}. ${q.q}</div>
+        ${q.options.map((opt, oi) => {
+          let cls = 'option';
+          if (submitted) {
+            if (oi === q.correct) cls += ' correct';
+            else if (selected === oi) cls += ' wrong';
+          } else if (selected === oi) cls += ' selected';
+          return `
+            <div class="${cls}" ${submitted ? '' : `onclick="selectAnswer(${qi}, ${oi})"`}>
+              <div class="option-radio"></div>
+              <div class="option-text">${opt}</div>
+            </div>
+          `;
+        }).join('')}
+        ${submitted ? `<div class="explanation"><strong>Explicación:</strong> ${q.expl}</div>` : ''}
+      </div>
+    `;
+  }).join('') + (STATE.quizSubmitted ? renderQuizResult() : `
+    <div class="quiz-actions">
+      <button class="btn btn-ghost" onclick="go('catalog')">Salir</button>
+      <button class="btn btn-primary" id="submitBtn" onclick="submitQuiz()" ${allAnswered() ? '' : 'disabled style="opacity:.5;pointer-events:none"'}>
+        Enviar respuestas
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+      </button>
+    </div>
+  `);
+
+  updateQuizProgress();
+}
+
+function selectAnswer(qi, oi) {
+  STATE.quizAnswers[qi] = oi;
+  renderQuizQuestions();
+}
+
+function allAnswered() {
+  const w = COURSE.weeks.find(x => x.id === STATE.currentQuizWeek);
+  return Object.keys(STATE.quizAnswers).length === w.quiz.questions.length;
+}
+
+function updateQuizProgress() {
+  const w = COURSE.weeks.find(x => x.id === STATE.currentQuizWeek);
+  const n = Object.keys(STATE.quizAnswers).length;
+  const pct = (n / w.quiz.questions.length) * 100;
+  document.getElementById('quizBar').style.width = pct + '%';
+  document.getElementById('quizCount').textContent = `${n}/${w.quiz.questions.length}`;
+}
+
+function submitQuiz() {
+  if (!allAnswered()) return;
+  const w = COURSE.weeks.find(x => x.id === STATE.currentQuizWeek);
+  let correct = 0;
+  w.quiz.questions.forEach((q, qi) => { if (STATE.quizAnswers[qi] === q.correct) correct++; });
+  const score = Math.round((correct / w.quiz.questions.length) * 100);
+  STATE.progress.quizScores[w.id] = { score, correct, total: w.quiz.questions.length, date: Date.now() };
+  const quizLesson = w.lessons.find(l => l.isQuiz);
+  if (quizLesson) STATE.progress.completed.add(quizLesson.id);
+  saveProgress();
+  STATE.quizSubmitted = true;
+  renderQuizQuestions();
+  setTimeout(() => window.scrollTo({ top: document.body.scrollHeight, behavior: 'smooth' }), 100);
+}
+
+function renderQuizResult() {
+  const w = COURSE.weeks.find(x => x.id === STATE.currentQuizWeek);
+  const s = STATE.progress.quizScores[w.id];
+  let title, sub;
+  if (s.score >= 90) { title = '¡Excelente!'; sub = 'Dominio consolidado. Estás listo para avanzar.'; }
+  else if (s.score >= 70) { title = '¡Buen trabajo!'; sub = 'Solid understanding. Revisa la explicación de tus fallas y avanza.'; }
+  else if (s.score >= 50) { title = 'Vas por buen camino'; sub = 'Recomendable revisar las lecciones antes de avanzar.'; }
+  else { title = 'Necesitas repasar'; sub = 'Retoma las lecciones y vuelve a intentar la evaluación.'; }
+
+  const isFinal = w.id === 4;
+  return `
+    <div class="result-card">
+      <div class="result-score">${s.score}%</div>
+      <div class="result-title">${title}</div>
+      <div class="result-sub">${s.correct} de ${s.total} correctas · ${sub}</div>
+      ${isFinal && s.score >= 70 ? `
+        <div style="background:var(--grad-soft);border:1px solid var(--border);border-radius:16px;padding:24px;margin:24px 0;">
+          <div style="font-size:12px;font-weight:700;letter-spacing:.1em;color:var(--brand);margin-bottom:8px">CERTIFICACIÓN</div>
+          <div style="font-size:20px;font-weight:800;letter-spacing:-.02em;margin-bottom:8px">🏆 Plan ITILearn completado</div>
+          <div style="font-size:14px;color:var(--text-2)">Has finalizado el plan de 4 semanas de ITIL 4 orientado a DevOps, DevSecOps y SRE.</div>
+        </div>
+      ` : ''}
+      <div class="result-actions">
+        <button class="btn btn-secondary" onclick="retryQuiz()">Reintentar</button>
+        <button class="btn btn-primary" onclick="go('dashboard')">Ver mi progreso</button>
+        ${!isFinal ? `<button class="btn btn-secondary" onclick="nextWeek(${w.id})">Continuar</button>` : ''}
+      </div>
+    </div>
+  `;
+}
+
+function retryQuiz() {
+  STATE.quizAnswers = {};
+  STATE.quizSubmitted = false;
+  renderQuiz(STATE.currentQuizWeek);
+}
+function nextWeek(id) {
+  const next = COURSE.weeks.find(w => w.id === id + 1);
+  if (next) {
+    const first = next.lessons.find(l => !l.isQuiz);
+    if (first) openLesson(first.id);
+  } else go('dashboard');
+}
+
+// ==================== DASHBOARD ====================
+function renderDashboard() {
+  const done = STATE.progress.completed.size;
+  const total = COURSE.totalLessons;
+  const pct = total ? Math.round((done / total) * 100) : 0;
+  document.getElementById('dashDone').textContent = done;
+  document.getElementById('dashBar').style.width = pct + '%';
+
+  let weeksStarted = 0;
+  COURSE.weeks.forEach(w => {
+    if (w.lessons.some(l => STATE.progress.completed.has(l.id))) weeksStarted++;
+  });
+  document.getElementById('dashWeeks').textContent = weeksStarted;
+
+  const quizzes = Object.keys(STATE.progress.quizScores).length;
+  document.getElementById('dashQuizzes').textContent = quizzes;
+
+  if (quizzes > 0) {
+    const avg = Math.round(Object.values(STATE.progress.quizScores).reduce((a, x) => a + x.score, 0) / quizzes);
+    document.getElementById('dashAvg').textContent = avg + '%';
+  } else {
+    document.getElementById('dashAvg').textContent = '–';
+  }
+
+  const wp = document.getElementById('dashWeekProgress');
+  wp.innerHTML = COURSE.weeks.map(w => {
+    const total = w.lessons.filter(l => !l.isQuiz).length;
+    const doneW = w.lessons.filter(l => !l.isQuiz && STATE.progress.completed.has(l.id)).length;
+    const pct = total ? (doneW / total) * 100 : 0;
+    return `
+      <div class="week-progress-row">
+        <div class="week-progress-label">Semana ${w.id}</div>
+        <div class="week-progress-bar"><div class="week-progress-fill" style="width:${pct}%"></div></div>
+        <div class="week-progress-count">${doneW}/${total}</div>
+      </div>
+    `;
+  }).join('');
+
+  // Next lesson
+  const nextBox = document.getElementById('nextLessonBox');
+  let nextLesson = null, nextWeek = null;
+  for (const w of COURSE.weeks) {
+    for (const l of w.lessons) {
+      if (!l.isQuiz && !STATE.progress.completed.has(l.id)) { nextLesson = l; nextWeek = w; break; }
+      if (l.isQuiz && !STATE.progress.quizScores[w.id]) { nextLesson = l; nextWeek = w; break; }
+    }
+    if (nextLesson) break;
+  }
+  if (nextLesson) {
+    const action = nextLesson.isQuiz ? `openQuiz(${nextWeek.id})` : `openLesson('${nextLesson.id}')`;
+    nextBox.innerHTML = `
+      <div class="next-lesson-card">
+        <div class="next-lesson-label">DÍA ${nextLesson.day} · SEMANA ${nextWeek.id}</div>
+        <div class="next-lesson-title">${nextLesson.title}</div>
+        <button class="btn btn-primary" style="width:100%" onclick="${action}">
+          ${nextLesson.isQuiz ? 'Iniciar evaluación' : 'Continuar lección'}
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+        </button>
+      </div>
+    `;
+  } else {
+    nextBox.innerHTML = `<div style="padding:16px;background:var(--grad-soft);border-radius:12px;text-align:center"><div style="font-size:24px;margin-bottom:8px">🎉</div><div style="font-weight:700">¡Plan completado!</div><div style="font-size:13px;color:var(--text-2);margin-top:4px">Has terminado las 4 semanas.</div></div>`;
+  }
+
+  // Quiz scores
+  const ql = document.getElementById('dashQuizList');
+  ql.innerHTML = COURSE.weeks.map(w => {
+    const s = STATE.progress.quizScores[w.id];
+    let badge, label;
+    if (!s) { badge = '<span class="quiz-score-badge qs-pending">Pendiente</span>'; label = 'Pendiente'; }
+    else if (s.score >= 80) { badge = `<span class="quiz-score-badge qs-high">${s.score}%</span>`; }
+    else if (s.score >= 60) { badge = `<span class="quiz-score-badge qs-mid">${s.score}%</span>`; }
+    else { badge = `<span class="quiz-score-badge qs-low">${s.score}%</span>`; }
+    return `
+      <div class="quiz-score-row">
+        <span style="font-weight:600">Semana ${w.id}</span>
+        ${badge}
+      </div>
+    `;
+  }).join('');
+}
+
+function resetProgress() {
+  if (!confirm('¿Seguro que quieres reiniciar todo tu progreso? Esta acción no se puede deshacer.')) return;
+  STATE.progress = { completed: new Set(), quizScores: {}, last: null };
+  saveProgress();
+  renderDashboard();
+  renderHome();
+  alert('Progreso reiniciado.');
+}
+
+// ==================== INIT ====================
+loadTheme();
+loadProgress();
+renderHome();
+</script>
+</body>
+</html>
