@@ -506,8 +506,62 @@ h2.section-title {
 .callout.success { border-color: var(--success); background: rgba(16,185,129,.08); }
 .callout.success .callout-title { color: var(--success); }
 
-.lesson-content h2 { font-size: 22px; font-weight: 700; letter-spacing: -0.01em; margin: 28px 0 12px; }
-.lesson-content h3 { font-size: 17px; font-weight: 700; margin: 20px 0 8px; letter-spacing: -0.005em; }
+.callout {
+  box-shadow: var(--shadow-sm);
+  transition: box-shadow .2s ease, transform .2s ease;
+}
+.callout.example {
+  border-left: 3px solid var(--warning);
+  background: linear-gradient(135deg, rgba(245,158,11,.09), rgba(79,70,229,.05) 60%, rgba(6,182,212,.04));
+  position: relative;
+  overflow: hidden;
+}
+.callout.example::after {
+  content: '"';
+  position: absolute; top: -34px; right: 18px;
+  font-size: 110px; font-family: Georgia, 'Times New Roman', serif;
+  color: rgba(245,158,11,.14);
+  line-height: 1; pointer-events: none;
+}
+.callout.example .callout-title { color: var(--warning); }
+.callout.example .example-scene {
+  color: var(--text-2);
+  font-size: 15px;
+}
+.callout.example .example-scene strong { color: var(--text); }
+.callout.example .example-attrib {
+  display: flex; align-items: center; gap: 12px;
+  margin-top: 16px; padding-top: 16px;
+  border-top: 1px dashed var(--border-2);
+}
+.callout.example .example-avatar {
+  width: 38px; height: 38px; border-radius: 50%;
+  background: var(--grad); color: #fff;
+  display: flex; align-items: center; justify-content: center;
+  font-weight: 800; font-size: 14px; letter-spacing: -0.02em;
+  flex-shrink: 0;
+  box-shadow: 0 3px 10px -2px rgba(79,70,229,.5);
+}
+.callout.example .example-who { line-height: 1.35; }
+.callout.example .example-who strong {
+  display: block; font-size: 13.5px; color: var(--text); font-weight: 700;
+}
+.callout.example .example-who span {
+  font-size: 12px; color: var(--text-3); letter-spacing: 0.01em;
+}
+
+.lesson-content h2 {
+  font-size: 22px; font-weight: 800; letter-spacing: -0.01em; margin: 32px 0 14px;
+  background: var(--grad); -webkit-background-clip: text; background-clip: text; color: transparent;
+}
+.lesson-content h3 {
+  font-size: 17px; font-weight: 700; margin: 22px 0 10px; letter-spacing: -0.005em;
+  display: flex; align-items: center; gap: 9px;
+}
+.lesson-content h3::before {
+  content: ''; width: 5px; height: 16px; border-radius: 3px;
+  background: var(--grad); flex-shrink: 0;
+}
 .lesson-content p { margin-bottom: 14px; color: var(--text-2); }
 .lesson-content strong { color: var(--text); font-weight: 700; }
 .lesson-content ul, .lesson-content ol { padding-left: 24px; margin-bottom: 14px; color: var(--text-2); }
@@ -522,13 +576,20 @@ h2.section-title {
   width: 100%; border-collapse: collapse; margin: 16px 0;
   font-size: 14px;
   overflow-x: auto; display: block;
+  border: 1px solid var(--border); border-radius: var(--r-sm);
+  box-shadow: var(--shadow-sm);
 }
 .lesson-content th, .lesson-content td {
   padding: 10px 14px; border-bottom: 1px solid var(--border);
   text-align: left;
 }
-.lesson-content th { font-weight: 700; color: var(--text); background: var(--surface-2); }
+.lesson-content th {
+  font-weight: 700; color: var(--text); background: var(--surface-2);
+  font-size: 12.5px; text-transform: uppercase; letter-spacing: 0.04em;
+}
 .lesson-content td { color: var(--text-2); }
+.lesson-content tr:last-child td { border-bottom: none; }
+.lesson-content tr:hover td { background: var(--surface-2); }
 
 .lesson-nav {
   display: flex; justify-content: space-between; gap: 12px;
@@ -902,7 +963,11 @@ const COURSE = {
             "ITIL 4 es un marco de operating model, no un checklist de procesos",
             "El SVS integra principios, gobierno, SVC, prácticas y mejora continua",
             "Los value streams DevOps son ejecuciones concretas de la SVC"
-          ]
+          ],
+          example: {
+            initials: "MR", name: "Marcos R.", role: "Head of Platform, banco digital chileno",
+            text: "Marcos heredó un \"centro de servicios\" que solo apagaba incendios. Al mapear el SVS descubrió que el 70% del valor entregado a los clientes dependía de tres value streams invisibles para la gerencia. Reorganizó el reporting alrededor de esos streams, no de los equipos, y en dos trimestres la satisfacción interna subió de 6.2 a 8.1."
+          }
         },
         {
           id: "L2", day: 2, title: "Las 4 Dimensiones de la Gestión de Servicios",
@@ -930,7 +995,11 @@ const COURSE = {
             "Las 4 dimensiones son un checklist obligatorio de diseño",
             "PESTLE describe presiones externas sobre las 4 dimensiones",
             "El escaneo 4D previene fallas silenciosas en iniciativas"
-          ]
+          ],
+          example: {
+            initials: "SL", name: "Sofía L.", role: "Engineering Manager, scale-up de logística",
+            text: "El equipo de plataforma de Sofía lanzó un \"self-service Kubernetes\" perfecto en tecnología, pero nadie lo usó: los desarrolladores no confiaban en el soporte y no había política de costos clara. Al revisar las 4 Dimensiones notaron que habían optimizado solo tecnología y organización, ignorando socios/proveedores (FinOps) y flujos de valor. Con las cuatro cubiertas, la adopción pasó de 12% a 68% en un trimestre."
+          }
         },
         {
           id: "L3", day: 3, title: "Los 7 Principios Guía de ITIL 4",
@@ -965,7 +1034,11 @@ const COURSE = {
             "Los 7 principios son criterios de decisión, no eslóganes",
             "Coinciden en espíritu con CALMS de DevOps",
             "Optimizar antes de automatizar es regla de oro"
-          ]
+          ],
+          example: {
+            initials: "CV", name: "Camila V.", role: "SRE Lead, fintech",
+            text: "Cada incidente en el equipo de Camila terminaba en una reunión de 2 horas para decidir \"qué documentar\". Aplicó el principio de progresar iterativamente con feedback: en vez de un runbook perfecto, publicó una versión mínima el mismo día y la mejoró con cada guardia siguiente. En 6 semanas el MTTR bajó 35% porque el conocimiento dejó de vivir solo en la cabeza de dos personas."
+          }
         },
         {
           id: "L4", day: 4, title: "Cadena de Valor del Servicio y Value Streams",
@@ -1005,7 +1078,11 @@ const COURSE = {
             "La SVC son 6 actividades combinables en distintos value streams",
             "Cada value stream DevOps mapea 1:1 con actividades SVC",
             "El desperdicio Lean se aplica directo a flujos de software"
-          ]
+          ],
+          example: {
+            initials: "PD", name: "Pedro D.", role: "Arquitecto de e-commerce, retail",
+            text: "Pedro mapeó el value stream de checkout de su retailer y encontró que un simple cambio de precio tardaba 11 días en llegar a producción, con 6 aprobaciones manuales. Rediseñó el flujo como cadena de valor de extremo a extremo, no por silos (pricing, dev, QA, seguridad), y lo redujo a 4 horas sin perder ningún control regulatorio: solo los automatizó."
+          }
         },
         {
           id: "L5", day: 5, title: "Panorama de las 34 Prácticas ITIL 4",
@@ -1041,7 +1118,11 @@ const COURSE = {
             "34 prácticas en 3 familias: general, servicio, técnica",
             "8 prácticas concentran el día a día de DevOps/SRE",
             "Muchas prácticas ya se ejercen; sólo faltan nombrarse"
-          ]
+          ],
+          example: {
+            initials: "AT", name: "Andrea T.", role: "CIO, aseguradora regional",
+            text: "El antecesor de Andrea intentó implementar las 34 prácticas de golpe y el proyecto colapsó en 3 meses. Ella eligió solo 5 prácticas críticas para el dolor real del negocio (Incident, Change, Problem, Service Desk, Continual Improvement) y las maduró antes de tocar el resto. 18 meses después, el resto de prácticas se adoptaron \"solas\" porque los equipos ya confiaban en el modelo."
+          }
         },
         {
           id: "L6", day: 6, title: "Alineación estratégica: ITIL 4 + DevOps + SRE",
@@ -1069,7 +1150,11 @@ const COURSE = {
             "ITIL, DevOps, SRE y Platform Eng. son capas complementarias",
             "ITIL 4 funciona como marco integrador con vocabulario común",
             "Reconoce lo que ya haces; no dupliques governance"
-          ]
+          ],
+          example: {
+            initials: "JF", name: "Javier F.", role: "Arquitecto de plataforma, empresa de e-learning",
+            text: "En la empresa de Javier, DevOps decía \"shippeamos rápido\" y Gestión de Servicios decía \"necesitamos control\": una tensión política sin salida. Usó el lenguaje ITIL 4 para traducir \"pipeline con quality gates\" en \"Change Enablement automatizado\" frente al comité de riesgo. El comité aprobó 40 despliegues diarios porque por fin entendió que velocidad y control no eran opuestos."
+          }
         },
         {
           id: "Q1", day: 7, title: "Evaluación · Semana 1", isQuiz: true
@@ -1187,7 +1272,11 @@ const COURSE = {
             "Un incidente es una interrupción no planificada",
             "Prioridad = Impacto × Urgencia (matriz)",
             "MTTA y MTTR son las métricas puente con SRE"
-          ]
+          ],
+          example: {
+            initials: "LG", name: "Laura G.", role: "Incident Manager, e-commerce",
+            text: "En un P1 durante Black Friday, dos equipos de guardia trabajaban en paralelo sin saberlo: uno reiniciando pods, otro revirtiendo un feature flag, pisándose entre sí. Laura instauró el rol claro de Incident Manager con swarming coordinado en un solo canal de guerra. El siguiente incidente similar se resolvió en 8 minutos en vez de 47."
+          }
         },
         {
           id: "L9", day: 9, title: "SRE + Incidentes: SLI, SLO, SLA y Error Budgets",
@@ -1221,7 +1310,11 @@ const COURSE = {
             "SLI mide, SLO apunta, SLA compromete",
             "Regla: SLA < SLO < SLI real",
             "Error budget agotado = freeze de riesgo, foco en confiabilidad"
-          ]
+          ],
+          example: {
+            initials: "DR", name: "Diego R.", role: "SRE, app de delivery",
+            text: "El equipo de Diego tenía un SLA de \"99.9% disponibilidad\" que nadie sabía cómo medir en la práctica. Definieron un SLI concreto (latencia p95 de la API de pedidos &lt;300ms) y un SLO de 99.5% mensual con error budget explícito. Cuando el budget se agotó a mitad de mes, congelaron releases no críticos por política, no por pánico, y evitaron un segundo incidente grave."
+          }
         },
         {
           id: "L10", day: 10, title: "On-call, escalamiento y comunicación en incidentes",
@@ -1267,7 +1360,11 @@ const COURSE = {
             "On-call sostenible: 6+ personas, turnos ≤ 1 semana, compensación",
             "Roles claros en mayores: IC, Ops, Comms, Scribe",
             "Comunicación externa cada 30 min mínimo; RFO en 24h"
-          ]
+          ],
+          example: {
+            initials: "NF", name: "Nicolás F.", role: "Platform Lead, empresa de pagos",
+            text: "El on-call de Nicolás rotaba cada semana entre 4 personas sin runbook ni escalamiento claro, y el ingeniero de turno recibía 30 alertas a las 3 AM, la mayoría ruido. Rediseñaron la política (nivel 1 con umbrales reales, nivel 2 solo tras 15 min sin resolución) y las alertas nocturnas bajaron de 30 a 4 por semana, sin perder tiempo de detección real."
+          }
         },
         {
           id: "L11", day: 11, title: "Práctica de Problem Management",
@@ -1308,7 +1405,11 @@ const COURSE = {
             "Problema es la causa; incidente es el síntoma",
             "Workaround temporal + KEDB acelera respuesta",
             "Problem Management proactivo se alinea con análisis SRE de trends"
-          ]
+          ],
+          example: {
+            initials: "VM", name: "Valentina M.", role: "Ingeniera de plataforma, banco",
+            text: "El mismo error de timeout en el checkout de su banco se resolvió 14 veces como incidente en un año, siempre con el mismo parche temporal. Valentina abrió un Known Error Record, investigó la causa raíz (un pool de conexiones mal dimensionado) y la corrigió una sola vez. Los incidentes por esa causa bajaron a cero el siguiente semestre."
+          }
         },
         {
           id: "L12", day: 12, title: "Root Cause Analysis: 5 Whys, Fishbone, FMEA",
@@ -1341,7 +1442,11 @@ const COURSE = {
             "5 Whys es simple pero exige disciplina: no inventar, no culpar",
             "Fishbone para causas múltiples contribuyentes",
             "FMEA es RCA proactivo — se aplica antes del incidente"
-          ]
+          ],
+          example: {
+            initials: "RB", name: "Rodrigo B.", role: "Facilitador de postmortems, plataforma de streaming",
+            text: "Tras una caída de 2 horas, el equipo aplicó 5 Whys en la retro y llegó rápido a \"faltó un test\". Rodrigo insistió en seguir con Fishbone (personas, proceso, tecnología, entorno) y descubrió que la causa real era un proceso de aprobación que presionaba a saltarse revisiones los viernes. Cambiaron la política de despliegues, no solo el código."
+          }
         },
         {
           id: "L13", day: 13, title: "Blameless Postmortems al estilo SRE",
@@ -1380,7 +1485,11 @@ const COURSE = {
             "Blameless: foco en el sistema, no en la persona",
             "Timeline + impacto + RCA + action items con fecha",
             "El postmortem cierra el ciclo Incident → Problem → Change → Improve"
-          ]
+          ],
+          example: {
+            initials: "IO", name: "Ignacio O.", role: "Tech Lead, fintech",
+            text: "El primer borrador de una postmortem en el equipo de Ignacio decía: \"el ingeniero Juan desplegó sin revisar el diff\". Él reescribió el reporte en formato blameless: \"el pipeline permitió un despliegue sin revisión obligatoria en horario nocturno\". El mismo hecho, otra causa raíz: agregaron un gate automático y Juan siguió siendo el mejor ingeniero del equipo, no el chivo expiatorio."
+          }
         },
         {
           id: "Q2", day: 14, title: "Evaluación · Semana 2", isQuiz: true
@@ -1506,7 +1615,11 @@ const COURSE = {
             "El propósito es maximizar cambios exitosos, no minimizarlos",
             "3 tipos: Standard, Normal, Emergency",
             "CAB tradicional cede ante Change Authorities distribuidas"
-          ]
+          ],
+          example: {
+            initials: "PS", name: "Paula S.", role: "Change Manager, banco",
+            text: "El CAB semanal del banco de Paula revisaba 80 cambios en 2 horas, la mayoría triviales (actualizar un certificado, cambiar una config de logging). Reclasificó el 60% como Standard Changes preautorizados con checklist, y el CAB pasó a discutir solo los 8 cambios de riesgo real por semana. El tiempo de aprobación promedio bajó de 5 días a 40 minutos."
+          }
         },
         {
           id: "L16", day: 16, title: "Tipos de cambio y CAB moderno",
@@ -1549,7 +1662,11 @@ const COURSE = {
             "Standard = bajo riesgo, procedimiento probado, preaprobado",
             "Distribuye Change Authority por dominio y nivel de riesgo",
             "Emergency debe ser excepción, no norma"
-          ]
+          ],
+          example: {
+            initials: "FH", name: "Felipe H.", role: "Platform Engineer, telco",
+            text: "En la telco de Felipe, el 90% de los cambios entraban como \"emergency\" solo para evitar el CAB. Rediseñaron los criterios de Change Authority por dominio y riesgo real, no por urgencia percibida, y las emergencias reales bajaron de 90% a 12% del total, dejando por fin visibilidad de qué era realmente crítico."
+          }
         },
         {
           id: "L17", day: 17, title: "CI/CD como flujo de Standard Changes",
@@ -1590,7 +1707,11 @@ const COURSE = {
             "CI/CD + quality gates = Standard Change automatizado",
             "GitOps convierte el repo en registro auditable de cambios",
             "Feature flags y canary reducen blast radius"
-          ]
+          ],
+          example: {
+            initials: "GT", name: "Gabriela T.", role: "Ingeniera de plataforma, marketplace",
+            text: "El equipo de Gabriela calificaba cada PR como \"cambio normal\" con aprobación manual, incluso para corregir un typo en un texto. Modelaron su pipeline con quality gates (cobertura, SAST, canary) como Change Enablement automatizado, documentando cada control como preaprobación técnica ante auditoría. El auditor externo aceptó el modelo y el lead time for changes bajó de 3 días a 45 minutos."
+          }
         },
         {
           id: "L18", day: 18, title: "DevSecOps: seguridad en el flujo",
@@ -1630,7 +1751,11 @@ const COURSE = {
             "Shift-left: controles temprano, automáticos, en pipeline",
             "Seguridad puede actuar como Change Authority automatizado",
             "Threat modeling STRIDE para cambios arquitectónicos"
-          ]
+          ],
+          example: {
+            initials: "TA", name: "Tomás A.", role: "AppSec Lead, scale-up de salud digital",
+            text: "En la empresa de Tomás, seguridad era \"la última puerta\" antes de producción y bloqueaba releases el día del deploy, generando fricción constante con desarrollo. Movieron el threat modeling STRIDE al diseño y el SAST/SCA al pipeline (shift-left), de modo que los hallazgos críticos aparecían en el PR, no en el release. Los bloqueos de última hora bajaron 80% y seguridad dejó de ser vista como \"el enemigo\"."
+          }
         },
         {
           id: "L19", day: 19, title: "Service Desk como práctica ITIL",
@@ -1672,7 +1797,11 @@ const COURSE = {
             "Service Desk = punto único de contacto, captura de demanda",
             "Distinto de Incident Management (que puede activarse sin Service Desk)",
             "Shift-left: resolver al nivel más bajo posible"
-          ]
+          ],
+          example: {
+            initials: "CB", name: "Carolina B.", role: "Service Desk Manager, universidad",
+            text: "El Service Desk de la universidad de Carolina recibía 200 tickets diarios de \"no puedo entrar al portal\", todos resueltos igual (reset de password) por un agente nivel 1. Separó claramente Service Desk (punto de contacto) de Incident Management (resolución) y automatizó el reset como self-service nivel 0. El volumen de tickets bajó 45% sin agregar personal."
+          }
         },
         {
           id: "L20", day: 20, title: "Service Desk moderno: ChatOps, Self-Service, AIOps",
@@ -1718,7 +1847,11 @@ const COURSE = {
             "ChatOps convierte al chat en interfaz operacional auditable",
             "Self-service bien diseñado reduce hasta 40% carga de L1",
             "AIOps exige observabilidad sólida como cimiento"
-          ]
+          ],
+          example: {
+            initials: "MB", name: "Matías B.", role: "Head of Support, software B2B",
+            text: "La empresa de Matías tenía un Service Desk por email con SLA de 24 horas para responder cualquier cosa, incluso \"cómo cambio mi foto de perfil\". Migraron a ChatOps en Slack con bot de primer nivel y catálogo self-service buscable. El 40% de las solicitudes se resolvió sin tocar a un humano, y el nivel 1 pudo enfocarse en los casos que realmente lo necesitaban."
+          }
         },
         {
           id: "Q3", day: 21, title: "Evaluación · Semana 3", isQuiz: true
@@ -1848,7 +1981,11 @@ const COURSE = {
             "El modelo tiene 7 pasos, aplicables en cualquier nivel",
             "Es un espiral: cada ciclo con contexto nuevo",
             "El CIR es tu backlog centralizado de mejora"
-          ]
+          ],
+          example: {
+            initials: "EQ", name: "Emilia Q.", role: "SRE, equipo de plataforma",
+            text: "El equipo de Emilia tenía una lista de \"mejoras pendientes\" de 150 items sin dueño ni prioridad, acumulada por 2 años. Aplicaron el modelo de mejora continua de 7 pasos, empezando por \"entender el estado actual\" con datos reales de incidentes, no opiniones. Priorizaron solo 5 iniciativas por trimestre con métrica de éxito definida, y por primera vez el backlog de mejora bajó en vez de crecer."
+          }
         },
         {
           id: "L23", day: 23, title: "Métricas: DORA + ITIL KPIs",
@@ -1883,7 +2020,11 @@ const COURSE = {
             "4 métricas DORA: freq, lead time, change failure, MTTR",
             "DORA y KPIs ITIL nombran lo mismo con distinto vocabulario",
             "Un dashboard equilibrado suma satisfacción y riesgo"
-          ]
+          ],
+          example: {
+            initials: "SR", name: "Sebastián R.", role: "VP de Ingeniería, startup",
+            text: "Sebastián medía el éxito de su equipo solo por \"features entregadas por sprint\". Al introducir las 4 métricas DORA junto a KPIs ITIL de incidentes recurrentes, descubrió que el equipo desplegaba rápido pero con 22% de change failure rate. Priorizaron calidad sobre velocidad por un trimestre y el failure rate bajó a 6%, sin sacrificar frecuencia de despliegue."
+          }
         },
         {
           id: "L24", day: 24, title: "Value Stream Mapping y Kaizen",
@@ -1919,7 +2060,11 @@ const COURSE = {
             "VSM revela ratio actividad/espera (típicamente &lt; 20%)",
             "Optimizar handoffs rinde más que optimizar equipos aislados",
             "Kaizen: mejora incremental sostenida, desde el equipo"
-          ]
+          ],
+          example: {
+            initials: "AN", name: "Antonia N.", role: "Ops Lead, fintech",
+            text: "En el onboarding de clientes de la fintech de Antonia, nadie sabía por qué el proceso tomaba 9 días. Un Value Stream Mapping reveló que el 80% del tiempo era espera entre pasos (colas de aprobación), no trabajo real. Aplicando Kaizen con mejoras pequeñas y continuas (aprobaciones en paralelo, no en serie) redujeron el ciclo a 2 días en tres iteraciones de dos semanas cada una."
+          }
         },
         {
           id: "L25", day: 25, title: "Gobierno, Riesgo y Cumplimiento (GRC)",
@@ -1958,7 +2103,11 @@ const COURSE = {
             "Gobierno es componente del SVS, no un comité aparte",
             "Error budgets son apetito de riesgo cuantificado",
             "Cumplimiento como subproducto del pipeline elimina fricción"
-          ]
+          ],
+          example: {
+            initials: "HL", name: "Hernán L.", role: "Compliance & Platform, banco",
+            text: "El banco de Hernán enfrentaba una auditoría regulatoria y su evidencia de control de cambios eran capturas de pantalla de un Excel. Migraron a un modelo GitOps donde cada cambio productivo tenía commit, autor, revisor y logs de CI como evidencia automática. El siguiente ciclo de auditoría pasó de 3 semanas de hallazgos a 2 días, porque el control ya no dependía de que alguien \"se acordara\" de documentar."
+          }
         },
         {
           id: "L26", day: 26, title: "Estrategia: OKRs + ITIL + DevOps",
@@ -1996,7 +2145,11 @@ const COURSE = {
             "OKR = Objective aspiracional + 2-4 KRs medibles",
             "Los KRs pueden usar métricas DORA, SLO, satisfacción",
             "Evita KRs de actividad y vanity metrics"
-          ]
+          ],
+          example: {
+            initials: "DC", name: "Daniela C.", role: "Directora de Tecnología, retail",
+            text: "El retail de Daniela definía OKRs de negocio (\"aumentar conversión 15%\") totalmente desconectados de los objetivos de plataforma (\"reducir latencia\"). Conectó explícitamente cada OKR de ingeniería a un objetivo de negocio, usando el lenguaje de valor de ITIL 4 para justificarlo ante el directorio. Por primera vez, plataforma dejó de ser vista como \"costo\" y tuvo presupuesto protegido en la siguiente renovación."
+          }
         },
         {
           id: "L27", day: 27, title: "Caso Práctico Integrador",
@@ -2408,6 +2561,22 @@ function renderLesson(id) {
         </div>
 
         <div class="lesson-content">${lesson.content}</div>
+
+        ${lesson.example ? `
+        <div class="callout example">
+          <div class="callout-title">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M3 21h18"/><path d="M5 21V7l8-4v18"/><path d="M19 21V11l-6-4"/><path d="M9 9v.01M9 12v.01M9 15v.01M9 18v.01"/></svg>
+            Caso real de oficina
+          </div>
+          <p class="example-scene">${lesson.example.text}</p>
+          <div class="example-attrib">
+            <div class="example-avatar">${lesson.example.initials}</div>
+            <div class="example-who">
+              <strong>${lesson.example.name}</strong>
+              <span>${lesson.example.role}</span>
+            </div>
+          </div>
+        </div>` : ''}
 
         <div class="callout devops">
           <div class="callout-title">
